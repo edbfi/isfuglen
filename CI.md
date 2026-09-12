@@ -27,11 +27,18 @@ The shared Renovate preset includes the official Biome schema manager and isolat
 Biome/TypeScript/prek groups. Biome repair computes changes without write permission,
 then a separate publisher validates the allowed paths and live PR head before
 committing and dispatching full CI on the new SHA. Existing template formatting
-exclusions remain in force. TypeScript stays below 7 until Astro/Svelte language
-tools support its compiler API.
+exclusions remain in force. TypeScript updates exercise both Astro and Svelte
+checks without a separate version cap. Incompatible updates remain unmerged.
 
-Automerge stays off until the corrected shared policy and strict required-check
-protection are activated. Pages publishing remains separate from development CI.
+Renovate updates, including majors and shared-policy versions, merge unattended
+only after every current-head job in `.github/merge-policy.json` passes. The
+checked action verifies genuine author sign-offs and dispatches full final CI
+for the exact merged commit. No dashboard approval, branch protections or
+rulesets are required. Other changes retain the maintainer ghmerge review.
+
+Successful final CI dispatches the existing Pages publisher for that exact main
+commit. It requires successful current final push or dispatched CI and rechecks
+the default revision before publication. Manual dispatch remains available.
 
 The Bun-only hook recognizes Renovate's `datasource=npm` metadata without
 treating it as a package-manager invocation. An injected `run: npm install`

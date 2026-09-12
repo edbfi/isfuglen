@@ -5,18 +5,22 @@
 # that directory to the `gh-pages` branch and writes the CNAME file on every run,
 # which is why the custom domain survives a redeploy instead of being reset.
 #
-# Quality, smoke and test gates run on the pull request that produced the commit;
-# this workflow deliberately does not re-run them, it publishes what landed.
+# Successful final CI dispatches this publisher for the exact main commit.
+# The revision and final CI are checked before publication.
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+    inputs:
+      expected-default-sha:
+        description: Exact default-branch commit requested after a checked merge
+        type: string
+        default: ''
 
 # The default GITHUB_TOKEN needs write access to push the `gh-pages` branch.
 permissions:
   contents: write
+  actions: read
 
 # Never cancel a deploy in flight: the publish step force-pushes a branch, and
 # killing it mid-push is the one way to leave the site in a torn state. Queued
@@ -30,17 +34,29 @@ jobs:
     name: Build and publish
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    # `workflow_dispatch` has no head_commit, hence the null-safe access — a
-    # manual redeploy (for example once DNS has propagated) must never be
-    # filtered out by the [skip ci] guard.
-    if: ${{ !contains(github.event.head_commit.message || '', '[skip ci]') }}
     environment:
       name: github-pages
       url: https://isfugl.edb.fi
     steps:
+      - uses: edbfi/automation/actions/dispatch-guard@v1.0.0
+        with:
+          token: ${{ github.token }}
+          expected-default-sha: ${{ inputs.expected-default-sha }}
       - name: Checkout repository
         uses: actions/checkout@v7.0.1
 
+      - name: Require successful CI for this exact commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$GITHUB_SHA&branch=main" > /tmp/runs.json
+          python3 - <<'PYTHON'
+          import json, os
+          runs = json.load(open('/tmp/runs.json'))['workflow_runs']
+          final = next((r for r in runs if r['event'] in {'push', 'workflow_dispatch'}), None)
+          if not (final and final['head_sha'] == os.environ['GITHUB_SHA'] and final['head_branch'] == 'main' and final['status'] == 'completed' and final['conclusion'] == 'success'):
+              raise SystemExit('Exact main commit has no successful final CI')
+          PYTHON
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2.2.0
         with:
@@ -55,6 +71,11 @@ jobs:
 
       - name: Build project
         run: bun run build
+
+      - uses: edbfi/automation/actions/dispatch-guard@v1.0.0
+        with:
+          token: ${{ github.token }}
+          expected-default-sha: ${{ inputs.expected-default-sha }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4.1.0
