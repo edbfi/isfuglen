@@ -124,3 +124,6 @@ public/fonts/pdf/
 /playwright-report/
 /blob-report/
 /.playwright/
+
+# Generated native Svelte checker input
+.svelte-check/
