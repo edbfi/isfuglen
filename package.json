@@ -11,11 +11,12 @@
     "build": "bun run build:assets && astro build",
     "build:assets": "bun run scripts/build-logo-png.ts && bun run scripts/build-pdf-fonts.ts",
     "preview": "astro preview",
-    "check": "astro check && svelte-check --tsconfig ./tsconfig.json",
+    "check": "astro check && svelte-check --tsconfig ./tsconfig.json && bun run check:native",
     "test": "bun test",
     "test:e2e": "playwright test",
     "format": "biome check --write .",
-    "check:bundle": "bun run build:assets && astro build && bun run scripts/check-bundle.ts"
+    "check:bundle": "bun run build:assets && astro build && bun run scripts/check-bundle.ts",
+    "check:native": "bunx --bun svelte-check --tsgo --tsconfig ./tsconfig.json"
   },
   "dependencies": {
     "@astrojs/svelte": "9.0.1",
@@ -56,7 +57,8 @@
     "axe-core": "4.13.0",
     "jszip": "3.10.2",
     "svelte-check": "4.7.6",
-    "typescript": "5.9.3",
-    "wawoff2": "2.0.1"
+    "typescript": "6.0.3",
+    "wawoff2": "2.0.1",
+    "@typescript/native": "npm:typescript@7.0.2"
   }
 }
