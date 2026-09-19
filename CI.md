@@ -31,12 +31,15 @@ committing and dispatching full CI on the new SHA. Existing template formatting
 exclusions remain in force. TypeScript updates exercise both Astro and Svelte
 checks without a separate version cap. Incompatible updates remain unmerged.
 
-Shared automation uses immutable `v3.0.1` references. The custom merger and its
-commands are retired. Renovate PR automerge remains explicitly disabled until
-required-check enforcement and the integration canary are proven. Enabling it
-requires strict, GitHub Actions-sourced required CI and PR policy checks, with no
-automated bypass. The read-only `policy / ci / policy` check preserves author
-sign-offs, Conventional Commit titles, review and hold-label requirements.
+Shared automation uses immutable `v3.0.1` references. Renovate owns dependency
+PR merging through its native rebase strategy, preserving commit author sign-offs.
+Strict, GitHub Actions-sourced required CI and PR policy checks must pass on an
+up-to-date branch; the automated merger has no bypass. The read-only
+`policy / ci / policy` check preserves author sign-offs, Conventional Commit titles,
+review requirements and hold labels. Independent policy events run to completion,
+so a metadata edit cannot cancel another check on the same commit. The shared
+release-age policy remains active, and Renovate configuration updates require
+manual merging. The custom merger and its commands remain retired.
 
 Biome repair retains its existing App credentials and publication boundary.
 `.github/repair-policy.json` preserves the previously unconfigured recovery opt-out.
