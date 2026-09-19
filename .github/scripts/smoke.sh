@@ -3,18 +3,15 @@ set -euo pipefail
 smoke_temp="$(mktemp -d)"
 export RUNNER_TEMP="$smoke_temp"
 
-# `scripts/serve-dist.ts` rather than `astro preview`: preview manages
-# a background daemon, which leaves "has the server started" ambiguous
-# and can outlive the step. This serves the same `dist/` in the
-# foreground on 0.0.0.0, so the IPv4 probes below always reach it.
-PORT=4321 bun run scripts/serve-dist.ts &
-server=$!
-trap 'kill "${server}" 2>/dev/null || true; rm -rf "$smoke_temp"' EXIT
-
-# Readiness loop, deliberately NOT `curl --retry`: this distinguishes
-# "not up yet" from "up but broken", so a real 500 fails fast instead
-# of being retried into a timeout.
-timeout 90 bash -c 'until curl -fsS -o /dev/null http://127.0.0.1:4321/; do sleep 1; done'
+server=''
+trap 'if [[ -n "$server" ]]; then kill "$server" 2>/dev/null || true; fi; rm -rf "$smoke_temp"' EXIT
+# CI delegates readiness, deadlines and process cleanup to the shared smoke action.
+# Keep the standalone entry point useful after a local production build.
+if [[ "${1:-}" != '--assert-only' ]]; then
+  PORT=4321 bun run scripts/serve-dist.ts &
+  server=$!
+  timeout 90 bash -c 'until curl --noproxy "*" -fsS -o /dev/null http://127.0.0.1:4321/; do sleep 1; done'
+fi
 
 # Assert on CONTENT, not just status — a 200 error page would sail
 # through a status-only check.
@@ -30,7 +27,7 @@ timeout 90 bash -c 'until curl -fsS -o /dev/null http://127.0.0.1:4321/; do slee
 # shows up first.
 for path in / /om /privatliv /hjaelp /en/ /en/about /en/privacy /en/help; do
   echo "==> ${path}"
-  curl -fsS -m 10 -o "${RUNNER_TEMP}/page.html" "http://127.0.0.1:4321${path}"
+  curl --noproxy "*" -fsS -m 10 -o "${RUNNER_TEMP}/page.html" "http://127.0.0.1:4321${path}"
   grep -q '<title>' "${RUNNER_TEMP}/page.html" \
     || { echo "SMOKE FAILED: ${path} served no <title>"; exit 1; }
 done
@@ -40,6 +37,6 @@ done
 # the product's no-backend privacy guarantee. A config change that
 # drops it is silent in every other check here, so assert it directly.
 echo "==> CSP meta on /"
-curl -fsS -m 10 -o "${RUNNER_TEMP}/home.html" "http://127.0.0.1:4321/"
+curl --noproxy "*" -fsS -m 10 -o "${RUNNER_TEMP}/home.html" "http://127.0.0.1:4321/"
 grep -qi 'http-equiv="content-security-policy"' "${RUNNER_TEMP}/home.html" \
   || { echo "SMOKE FAILED: / served no CSP meta tag"; exit 1; }

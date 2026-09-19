@@ -12,6 +12,9 @@ jobs:
     - uses: actions/checkout@v7.0.1
       with:
         persist-credentials: false
+    - uses: actions/setup-python@v7.0.0
+      with:
+        python-version: '3.14'
     - uses: actions/setup-node@v7.0.0
       with:
         node-version: 24.21.0
@@ -22,6 +25,12 @@ jobs:
       with:
         name: site-dist
         path: dist/
-    - run: bash .github/scripts/smoke.sh
+    - uses: edbfi/automation/actions/smoke@v3.0.0
+      with:
+        start-command: PORT=4321 bun run scripts/serve-dist.ts
+        url: http://127.0.0.1:4321/
+        test-command: bash .github/scripts/smoke.sh --assert-only
+        timeout-seconds: 90
+        test-timeout-seconds: 60
     - name: Reject tracked-file mutations
       run: git diff --exit-code HEAD
