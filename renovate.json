@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["github>edbfi/automation//default.json#v3.0.1"],
-  "automerge": false,
+  "automerge": true,
+  "automergeStrategy": "rebase",
   "automergeType": "pr",
   "platformAutomerge": false,
   "ignoreTests": false
