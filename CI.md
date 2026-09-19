@@ -31,7 +31,7 @@ committing and dispatching full CI on the new SHA. Existing template formatting
 exclusions remain in force. TypeScript updates exercise both Astro and Svelte
 checks without a separate version cap. Incompatible updates remain unmerged.
 
-Shared automation uses immutable `v3.0.0` references. The custom merger and its
+Shared automation uses immutable `v3.0.1` references. The custom merger and its
 commands are retired. Renovate PR automerge remains explicitly disabled until
 required-check enforcement and the integration canary are proven. Enabling it
 requires strict, GitHub Actions-sourced required CI and PR policy checks, with no

@@ -25,7 +25,7 @@ jobs:
       with:
         name: site-dist
         path: dist/
-    - uses: edbfi/automation/actions/smoke@v3.0.0
+    - uses: edbfi/automation/actions/smoke@v3.0.1
       with:
         start-command: PORT=4321 bun run scripts/serve-dist.ts
         url: http://127.0.0.1:4321/
