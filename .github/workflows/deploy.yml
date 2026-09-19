@@ -5,15 +5,19 @@
 # that directory to the `gh-pages` branch and writes the CNAME file on every run,
 # which is why the custom domain survives a redeploy instead of being reset.
 #
-# Successful final CI dispatches this publisher for the exact main commit.
+# Successful default-branch CI triggers this publisher for the exact main commit.
 # The revision and final CI are checked before publication.
 name: Deploy to GitHub Pages
 
 on:
+  workflow_run:
+    workflows: [ci]
+    branches: [main]
+    types: [completed]
   workflow_dispatch:
     inputs:
       expected-default-sha:
-        description: Exact default-branch commit requested after a checked merge
+        description: Exact default-branch commit to publish; empty uses current main
         type: string
         default: ''
 
@@ -31,6 +35,12 @@ concurrency:
 
 jobs:
   deploy:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main' &&
+       github.event.workflow_run.head_repository.full_name == github.repository &&
+       (github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'workflow_dispatch'))
     name: Build and publish
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -38,25 +48,17 @@ jobs:
       name: github-pages
       url: https://isfugl.edb.fi
     steps:
-      - uses: edbfi/automation/actions/dispatch-guard@v2.0.0
-        with:
-          token: ${{ github.token }}
-          expected-default-sha: ${{ inputs.expected-default-sha }}
-      - name: Checkout repository
+      - name: Checkout current deployment revision
         uses: actions/checkout@v7.0.1
-
-      - name: Require successful CI for this exact commit
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          persist-credentials: false
+      - name: Require successful CI for this exact default commit
+        id: ci
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$GITHUB_SHA&branch=main" > /tmp/runs.json
-          python3 - <<'PYTHON'
-          import json, os
-          runs = json.load(open('/tmp/runs.json'))['workflow_runs']
-          final = next((r for r in runs if r['event'] in {'push', 'workflow_dispatch'}), None)
-          if not (final and final['head_sha'] == os.environ['GITHUB_SHA'] and final['head_branch'] == 'main' and final['status'] == 'completed' and final['conclusion'] == 'success'):
-              raise SystemExit('Exact main commit has no successful final CI')
-          PYTHON
+        run: python3 .github/scripts/deployment.py
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2.2.0
         with:
@@ -72,10 +74,12 @@ jobs:
       - name: Build project
         run: bun run build
 
-      - uses: edbfi/automation/actions/dispatch-guard@v2.0.0
-        with:
-          token: ${{ github.token }}
-          expected-default-sha: ${{ inputs.expected-default-sha }}
+      - name: Recheck current revision and CI before publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_CI_RUN_ID: ${{ steps.ci.outputs.run-id }}
+          EXPECTED_CI_ATTEMPT: ${{ steps.ci.outputs.run-attempt }}
+        run: python3 .github/scripts/deployment.py
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4.1.0
