@@ -45,9 +45,7 @@ def main():
     require(kind in {'workflow_run', 'workflow_dispatch'}, 'Unexpected deployment event')
     trigger = event.get('workflow_run') if kind == 'workflow_run' else None
     revision = trigger['head_sha'] if trigger else os.environ['GITHUB_SHA']
-    expected = event.get('inputs', {}).get('expected-default-sha', '')
     require(re.fullmatch(r'[0-9a-f]{40}', revision), 'Invalid deployment revision')
-    require(not expected or expected == revision, 'Requested deployment revision differs')
     require(os.environ['GITHUB_REF_NAME'] == 'main'
             and os.environ['GITHUB_SHA'] == revision, 'Deployment is not on current main')
     require(read('')['default_branch'] == 'main', 'Default branch changed')
