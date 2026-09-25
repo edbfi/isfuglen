@@ -3,7 +3,7 @@
 Every PR, default-branch push and manual `ci.yml` dispatch runs the same checks.
 The required `ci / required` aggregate rejects failed, cancelled, missing and
 skipped prerequisites. Workflow validation is read-only and rejects tracked-file
-mutations. Shared guards, gate and Biome repair use versioned releases of
+mutations. The shared gate, smoke, policy and Biome repair use versioned releases of
 `edbfi/automation`; all external action references use full version tags.
 
 The quality lane runs complementary prek hygiene and stack guards, read-only
@@ -27,22 +27,25 @@ the default-branch hook applies to local commits. No existing stack guards are r
 The shared Renovate preset includes the official Biome schema manager and isolates
 Biome/TypeScript/prek groups. Biome repair computes changes without write permission,
 then a separate publisher validates the allowed paths and live PR head before
-committing and dispatching full CI on the new SHA. Existing template formatting
+committing. The App-authored push starts the normal `pull_request` CI and policy
+runs on the new SHA; nothing is dispatched. Existing template formatting
 exclusions remain in force. TypeScript updates exercise both Astro and Svelte
 checks without a separate version cap. Incompatible updates remain unmerged.
 
-Shared automation uses immutable `v3.0.1` references. Renovate owns dependency
-PR merging through its native rebase strategy, preserving commit author sign-offs.
+Shared automation uses immutable `v4.0.0` references. Renovate owns dependency
+PR merging through the shared `automerge.json` preset: it arms GitHub auto-merge
+with the rebase strategy, preserving commit author sign-offs.
 Strict, GitHub Actions-sourced required CI and PR policy checks must pass on an
 up-to-date branch; the automated merger has no bypass. The read-only
 `policy / ci / policy` check preserves author sign-offs, Conventional Commit titles,
 review requirements and hold labels. Independent policy events run to completion,
-so a metadata edit cannot cancel another check on the same commit. The shared
+so a metadata edit cannot cancel another check on the same commit. After a pass,
+policy re-runs the other event's older failed verdict for the same head
+(`actions: write`), so a withdrawn objection clears without a manual re-run. The shared
 release-age policy remains active, and Renovate configuration updates require
 manual merging. The custom merger and its commands remain retired.
 
 Biome repair retains its existing App credentials and publication boundary.
-`.github/repair-policy.json` preserves the previously unconfigured recovery opt-out.
 A head pushed only with `GITHUB_TOKEN` can miss PR policy events; it remains blocked
 until a supported App/user update produces complete CI and policy checks.
 
