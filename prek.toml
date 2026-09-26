@@ -126,7 +126,6 @@ repo = "builtin"
 id = "deny-pattern"
 alias = "no-npm"
 name = "Bun only (no npm / pnpm / yarn / npx)"
-# Renovate datasource=npm metadata names a registry, not an executable.
 args = ['(^|[^=])\b(npm|pnpm|yarn|npx)\s']
 files = '^(package\.json|bunfig\.toml|Dockerfile|\.github/workflows/.*\.ya?ml|scripts/.*\.(sh|ts|mjs))$'
 
