@@ -9,238 +9,233 @@ const { lang } = Astro.props;
 const da = lang === "da";
 ---
 
-{
-  da ? (
-    <Fragment>
-      <h2>Sådan laver du et nyhedsbrev</h2>
-      <ol>
-        <li>Sæt dine noter ind i tekstfeltet på forsiden — referat, dagsorden eller løse noter.</li>
-        <li>
-          Tryk <strong>Formatér nyhedsbrev</strong>. Værktøjet finder titel, dato, dagsorden,
-          beslutninger, handlinger og kontaktoplysninger.
-        </li>
-        <li>
-          Ret det, der ikke blev rigtigt. Afsnit, vi var i tvivl om, er markeret med ordet
-          <strong>Usikker</strong>.
-        </li>
-        <li>Hent nyhedsbrevet som PDF eller Word-fil, eller kopiér det til en mail.</li>
-      </ol>
+{da ? (
+  <Fragment>
+    <h2>Sådan laver du et nyhedsbrev</h2>
+    <ol>
+      <li>Sæt dine noter ind i tekstfeltet på forsiden — referat, dagsorden eller løse noter.</li>
+      <li>
+        Tryk <strong>Formatér nyhedsbrev</strong>. Værktøjet finder titel, dato, dagsorden,
+        beslutninger, handlinger og kontaktoplysninger.
+      </li>
+      <li>
+        Ret det, der ikke blev rigtigt. Afsnit, vi var i tvivl om, er markeret med ordet
+        <strong>Usikker</strong>.
+      </li>
+      <li>Hent nyhedsbrevet som PDF eller Word-fil, eller kopiér det til en mail.</li>
+    </ol>
 
-      <h2>Hvad værktøjet genkender</h2>
-      <p>
-        Overskrifter som <em>Dagsorden</em>, <em>Beslutninger</em>, <em>Handlinger</em>,
-        <em>Vigtigt</em>, <em>Til orientering</em>, <em>Kontakt</em> og
-        <em>Med venlig hilsen</em>. Punktlister med <code>-</code>, <code>•</code> eller
-        <code>*</code>, nummererede lister, datoer som <em>14. august 2026</em>,<em>14/8-26</em>{" "}
-        eller <em>14.08.2026</em>, tidspunkter som <em>kl. 15.30-17.00</em>, e-mailadresser og
-        links.
-      </p>
-      <p>
-        Handlinger må gerne have en ansvarlig og en frist:
-        <em>Indkalde til møde (Ansvarlig: Mette, frist 01.09.2026)</em> eller
-        <em>Sende referat – Jens, senest 20.08.2026</em>.
-      </p>
+    <h2>Hvad værktøjet genkender</h2>
+    <p>
+      Overskrifter som <em>Dagsorden</em>, <em>Beslutninger</em>, <em>Handlinger</em>,
+      <em>Vigtigt</em>, <em>Til orientering</em>, <em>Kontakt</em> og
+      <em>Med venlig hilsen</em>. Punktlister med <code>-</code>, <code>•</code> eller
+      <code>*</code>, nummererede lister, datoer som <em>14. august 2026</em>,<em>14/8-26</em> eller{" "}
+      <em>14.08.2026</em>, tidspunkter som <em>kl. 15.30-17.00</em>, e-mailadresser og links.
+    </p>
+    <p>
+      Handlinger må gerne have en ansvarlig og en frist:
+      <em>Indkalde til møde (Ansvarlig: Mette, frist 01.09.2026)</em> eller
+      <em>Sende referat – Jens, senest 20.08.2026</em>.
+    </p>
 
-      <h2>Når du kopierer fra Google Docs eller Word</h2>
-      <p>
-        Tallene i en nummereret liste følger ikke med udklipsholderen. Der står kun teksten ud for
-        tallet, og så ligner det løse linjer. Vi gætter os frem: står der en linje, der ender på
-        kolon eller på et ord som <em>med</em>, <em>følgende</em> eller <em>herunder</em>, og kommer
-        der to eller flere korte linjer lige under, sætter vi dem op som en nummereret liste.
-      </p>
-      <p>
-        Gættet er markeret <strong>Usikker</strong>, så du kan se, hvor vi har gjort det. Ramte vi
-        forkert, kan du markere teksten i afsnittet og trykke <strong>1.</strong> eller
-        <strong>•</strong> i værktøjslinjen — eller trykke på knappen igen for at gøre listen til
-        almindelig tekst.
-      </p>
+    <h2>Når du kopierer fra Google Docs eller Word</h2>
+    <p>
+      Tallene i en nummereret liste følger ikke med udklipsholderen. Der står kun teksten ud for
+      tallet, og så ligner det løse linjer. Vi gætter os frem: står der en linje, der ender på kolon
+      eller på et ord som <em>med</em>, <em>følgende</em> eller <em>herunder</em>, og kommer der to
+      eller flere korte linjer lige under, sætter vi dem op som en nummereret liste.
+    </p>
+    <p>
+      Gættet er markeret <strong>Usikker</strong>, så du kan se, hvor vi har gjort det. Ramte vi
+      forkert, kan du markere teksten i afsnittet og trykke <strong>1.</strong> eller
+      <strong>•</strong> i værktøjslinjen — eller trykke på knappen igen for at gøre listen til
+      almindelig tekst.
+    </p>
 
-      <h2>Datoer læses altid med dagen først</h2>
-      <p>
-        <em>03/04/2026</em> er 3. april, aldrig 4. marts. Tocifrede årstal til og med 79 læses som
-        2000-tallet.
-      </p>
+    <h2>Datoer læses altid med dagen først</h2>
+    <p>
+      <em>03/04/2026</em> er 3. april, aldrig 4. marts. Tocifrede årstal til og med 79 læses som
+      2000-tallet.
+    </p>
 
-      <h2>PDF</h2>
-      <p>
-        <strong>Hent PDF</strong> laver filen med det samme og henter den ned. Der er ingen
-        printdialog og ingen destination at vælge, og filen bliver den samme uanset hvilken browser
-        du bruger.
-      </p>
-      <p>
-        Teksten i PDF'en er ægte tekst, du kan søge i, markere og kopiere — også æ, ø og å. Logoet
-        er vektor og bliver skarpt uanset hvor meget du zoomer. Siderne er nøjagtig dem, du ser i
-        forhåndsvisningen: samme linjeskift, samme orddeling, samme sideskift.
-      </p>
-      <p>
-        Vil du hellere udskrive på papir, virker browserens egen printfunktion (Ctrl+P, eller ⌘+P på
-        Mac) stadig.
-      </p>
+    <h2>PDF</h2>
+    <p>
+      <strong>Hent PDF</strong> laver filen med det samme og henter den ned. Der er ingen
+      printdialog og ingen destination at vælge, og filen bliver den samme uanset hvilken browser du
+      bruger.
+    </p>
+    <p>
+      Teksten i PDF'en er ægte tekst, du kan søge i, markere og kopiere — også æ, ø og å. Logoet er
+      vektor og bliver skarpt uanset hvor meget du zoomer. Siderne er nøjagtig dem, du ser i
+      forhåndsvisningen: samme linjeskift, samme orddeling, samme sideskift.
+    </p>
+    <p>
+      Vil du hellere udskrive på papir, virker browserens egen printfunktion (Ctrl+P, eller ⌘+P på
+      Mac) stadig.
+    </p>
 
-      <h2>Word-filen og PDF'en ser ikke helt ens ud</h2>
-      <p>
-        Word og browseren sætter tekst med hver sin motor. Linjeskift falder forskelligt, og et
-        sideskift kan lande et afsnit før eller efter. Word-filen bruger desuden Georgia og Calibri,
-        fordi de findes på næsten alle maskiner — en fil, der ser rigtig ud hos modtageren, er mere
-        værd end en, der matcher skærmen hos afsenderen.
-      </p>
-      <p>
-        Det, der altid følger med: indholdet, rækkefølgen, overskriftsniveauerne, de faste
-        overskrifter på det valgte dokumentsprog, logoet, margenerne, A4-formatet og forskellen
-        mellem de forskellige blokke.
-      </p>
+    <h2>Word-filen og PDF'en ser ikke helt ens ud</h2>
+    <p>
+      Word og browseren sætter tekst med hver sin motor. Linjeskift falder forskelligt, og et
+      sideskift kan lande et afsnit før eller efter. Word-filen bruger desuden Georgia og Calibri,
+      fordi de findes på næsten alle maskiner — en fil, der ser rigtig ud hos modtageren, er mere
+      værd end en, der matcher skærmen hos afsenderen.
+    </p>
+    <p>
+      Det, der altid følger med: indholdet, rækkefølgen, overskriftsniveauerne, de faste
+      overskrifter på det valgte dokumentsprog, logoet, margenerne, A4-formatet og forskellen mellem
+      de forskellige blokke.
+    </p>
 
-      <h2>Kopiér til Word, Outlook eller Gmail</h2>
-      <p>
-        <strong>Kopiér nyhedsbrev</strong> lægger både formateret tekst og ren tekst på
-        udklipsholderen. Overskrifter, lister, links og farver følger med. Logo og sidefod gør ikke
-        — brug PDF eller Word, hvis du har brug for dem.
-      </p>
+    <h2>Kopiér til Word, Outlook eller Gmail</h2>
+    <p>
+      <strong>Kopiér nyhedsbrev</strong> lægger både formateret tekst og ren tekst på
+      udklipsholderen. Overskrifter, lister, links og farver følger med. Logo og sidefod gør ikke —
+      brug PDF eller Word, hvis du har brug for dem.
+    </p>
 
-      <h2>To sprog, to steder</h2>
-      <p>
-        <strong>Brugerfladens sprog</strong> skifter du øverst i vinduet. Det ændrer knapper og
-        vejledning, aldrig din tekst.
-        <strong>Dokumentsproget</strong> skifter du i dokumentkortet inde i redigeringsruden. Det
-        styrer datoformat og de faste overskrifter i selve nyhedsbrevet.
-      </p>
+    <h2>To sprog, to steder</h2>
+    <p>
+      <strong>Brugerfladens sprog</strong> skifter du øverst i vinduet. Det ændrer knapper og
+      vejledning, aldrig din tekst.
+      <strong>Dokumentsproget</strong> skifter du i dokumentkortet inde i redigeringsruden. Det
+      styrer datoformat og de faste overskrifter i selve nyhedsbrevet.
+    </p>
 
-      <h2>Kladder</h2>
-      <p>
-        Kladder gemmes i din browser på denne computer. Safari sletter dem efter syv dage uden brug,
-        og en privat browsersession sletter dem, når du lukker den. Brug
-        <strong>Hent alle kladder som fil</strong> for at have en sikkerhedskopi.
-      </p>
+    <h2>Kladder</h2>
+    <p>
+      Kladder gemmes i din browser på denne computer. Safari sletter dem efter syv dage uden brug,
+      og en privat browsersession sletter dem, når du lukker den. Brug
+      <strong>Hent alle kladder som fil</strong> for at have en sikkerhedskopi.
+    </p>
 
-      <h2>Tastaturet</h2>
-      <dl>
-        <dt>Flyt et afsnit</dt>
-        <dd>Alt + pil op / Alt + pil ned, eller knapperne på afsnittet.</dd>
-        <dt>Fed og kursiv</dt>
-        <dd>Ctrl/⌘ + B og Ctrl/⌘ + I.</dd>
-        <dt>Link</dt>
-        <dd>Ctrl/⌘ + K.</dd>
-        <dt>Fortryd</dt>
-        <dd>Ctrl/⌘ + Z, og Ctrl/⌘ + Shift + Z for at gentage.</dd>
-        <dt>Forlad skrivefeltet</dt>
-        <dd>Escape.</dd>
-      </dl>
-    </Fragment>
-  ) : (
-    <Fragment>
-      <h2>How to make a newsletter</h2>
-      <ol>
-        <li>
-          Paste your notes into the text field on the front page — minutes, an agenda or loose
-          notes.
-        </li>
-        <li>
-          Press <strong>Format newsletter</strong>. The tool finds the title, date, agenda,
-          decisions, action items and contact details.
-        </li>
-        <li>
-          Fix whatever it got wrong. Sections we were unsure about are marked with the word
-          <strong>Uncertain</strong>.
-        </li>
-        <li>Download the newsletter as a PDF or a Word file, or copy it into an email.</li>
-      </ol>
+    <h2>Tastaturet</h2>
+    <dl>
+      <dt>Flyt et afsnit</dt>
+      <dd>Alt + pil op / Alt + pil ned, eller knapperne på afsnittet.</dd>
+      <dt>Fed og kursiv</dt>
+      <dd>Ctrl/⌘ + B og Ctrl/⌘ + I.</dd>
+      <dt>Link</dt>
+      <dd>Ctrl/⌘ + K.</dd>
+      <dt>Fortryd</dt>
+      <dd>Ctrl/⌘ + Z, og Ctrl/⌘ + Shift + Z for at gentage.</dd>
+      <dt>Forlad skrivefeltet</dt>
+      <dd>Escape.</dd>
+    </dl>
+  </Fragment>
+) : (
+  <Fragment>
+    <h2>How to make a newsletter</h2>
+    <ol>
+      <li>
+        Paste your notes into the text field on the front page — minutes, an agenda or loose notes.
+      </li>
+      <li>
+        Press <strong>Format newsletter</strong>. The tool finds the title, date, agenda, decisions,
+        action items and contact details.
+      </li>
+      <li>
+        Fix whatever it got wrong. Sections we were unsure about are marked with the word
+        <strong>Uncertain</strong>.
+      </li>
+      <li>Download the newsletter as a PDF or a Word file, or copy it into an email.</li>
+    </ol>
 
-      <h2>What the tool recognises</h2>
-      <p>
-        Headings such as <em>Agenda</em>, <em>Decisions</em>, <em>Action items</em>,
-        <em>Important</em>, <em>Please note</em>, <em>Contact</em> and <em>Kind regards</em>, in
-        English and in Danish. Bulleted lists with <code>-</code>, <code>•</code> or
-        <code>*</code>, numbered lists, dates such as <em>14 August 2026</em> or
-        <em>14/08/2026</em>, times such as <em>15:30-17:00</em>, email addresses and links.
-      </p>
-      <p>
-        Action items may carry a responsible person and a deadline:
-        <em>Call a meeting (Responsible: Mette, due 01/09/2026)</em> or
-        <em>Send the minutes - Jens, due 20/08/2026</em>.
-      </p>
+    <h2>What the tool recognises</h2>
+    <p>
+      Headings such as <em>Agenda</em>, <em>Decisions</em>, <em>Action items</em>,{" "}<em>Important</em>,{" "}<em>Please note</em>, <em>Contact</em> and <em>Kind regards</em>, in English and in Danish.
+      Bulleted lists with <code>-</code>, <code>•</code> or
+      <code>*</code>, numbered lists, dates such as <em>14 August 2026</em> or
+      <em>14/08/2026</em>, times such as <em>15:30-17:00</em>, email addresses and links.
+    </p>
+    <p>
+      Action items may carry a responsible person and a deadline:
+      <em>Call a meeting (Responsible: Mette, due 01/09/2026)</em> or
+      <em>Send the minutes - Jens, due 20/08/2026</em>.
+    </p>
 
-      <h2>Pasting from Google Docs or Word</h2>
-      <p>
-        The numerals of a numbered list do not survive the clipboard. Only the item text comes
-        across, which looks like a handful of loose lines. We guess: if a line ends in a colon or in
-        a word such as <em>with</em>, <em>following</em> or <em>including</em>, and two or more
-        short lines follow it, we set them as a numbered list.
-      </p>
-      <p>
-        The guess is marked <strong>Uncertain</strong> so you can see where we made it. If we got it
-        wrong, select the text in the section and press <strong>1.</strong> or <strong>•</strong> in
-        the toolbar — or press the same button again to turn the list back into ordinary text.
-      </p>
+    <h2>Pasting from Google Docs or Word</h2>
+    <p>
+      The numerals of a numbered list do not survive the clipboard. Only the item text comes across,
+      which looks like a handful of loose lines. We guess: if a line ends in a colon or in a word
+      such as <em>with</em>, <em>following</em> or <em>including</em>, and two or more short lines
+      follow it, we set them as a numbered list.
+    </p>
+    <p>
+      The guess is marked <strong>Uncertain</strong> so you can see where we made it. If we got it
+      wrong, select the text in the section and press <strong>1.</strong> or <strong>•</strong> in
+      the toolbar — or press the same button again to turn the list back into ordinary text.
+    </p>
 
-      <h2>Dates are always read day-first</h2>
-      <p>
-        <em>03/04/2026</em> is 3 April, never 4 March. Two-digit years up to and including 79 are
-        read as the 2000s.
-      </p>
+    <h2>Dates are always read day-first</h2>
+    <p>
+      <em>03/04/2026</em> is 3 April, never 4 March. Two-digit years up to and including 79 are read
+      as the 2000s.
+    </p>
 
-      <h2>PDF</h2>
-      <p>
-        <strong>Download PDF</strong> builds the file and downloads it. There is no print dialog and
-        no destination to choose, and you get the same file whichever browser you use.
-      </p>
-      <p>
-        The text in the PDF is real text you can search, select and copy — æ, ø and å included. The
-        logo is vector and stays sharp however far you zoom. The pages are exactly the ones you see
-        in the preview: the same line breaks, the same hyphenation, the same page breaks.
-      </p>
-      <p>
-        If you would rather print on paper, your browser's own print function (Ctrl+P, or ⌘+P on a
-        Mac) still works.
-      </p>
+    <h2>PDF</h2>
+    <p>
+      <strong>Download PDF</strong> builds the file and downloads it. There is no print dialog and
+      no destination to choose, and you get the same file whichever browser you use.
+    </p>
+    <p>
+      The text in the PDF is real text you can search, select and copy — æ, ø and å included. The
+      logo is vector and stays sharp however far you zoom. The pages are exactly the ones you see in
+      the preview: the same line breaks, the same hyphenation, the same page breaks.
+    </p>
+    <p>
+      If you would rather print on paper, your browser's own print function (Ctrl+P, or ⌘+P on a
+      Mac) still works.
+    </p>
 
-      <h2>The Word file and the PDF will not look identical</h2>
-      <p>
-        Word and browsers lay text out with different engines. Line breaks fall differently, and a
-        page break may land a paragraph earlier or later. The Word file also uses Georgia and
-        Calibri, because they exist on almost every machine — a file that looks right for the
-        recipient is worth more than one that matches the sender's screen.
-      </p>
-      <p>
-        What is always preserved: the content, its order, the heading hierarchy, the generated
-        labels in the chosen document language, the logo, the margins, the A4 page size, and the
-        distinction between every block type.
-      </p>
+    <h2>The Word file and the PDF will not look identical</h2>
+    <p>
+      Word and browsers lay text out with different engines. Line breaks fall differently, and a
+      page break may land a paragraph earlier or later. The Word file also uses Georgia and Calibri,
+      because they exist on almost every machine — a file that looks right for the recipient is
+      worth more than one that matches the sender's screen.
+    </p>
+    <p>
+      What is always preserved: the content, its order, the heading hierarchy, the generated labels
+      in the chosen document language, the logo, the margins, the A4 page size, and the distinction
+      between every block type.
+    </p>
 
-      <h2>Copying into Word, Outlook or Gmail</h2>
-      <p>
-        <strong>Copy newsletter</strong> puts both formatted and plain text on the clipboard.
-        Headings, lists, links and colours are included. The logo and footer are not — use PDF or
-        Word if you need them.
-      </p>
+    <h2>Copying into Word, Outlook or Gmail</h2>
+    <p>
+      <strong>Copy newsletter</strong> puts both formatted and plain text on the clipboard.
+      Headings, lists, links and colours are included. The logo and footer are not — use PDF or Word
+      if you need them.
+    </p>
 
-      <h2>Two languages, two places</h2>
-      <p>
-        Change the <strong>interface language</strong> at the top of the window. It changes buttons
-        and guidance, never your text. Change the <strong>document language</strong> in the document
-        card inside the editor pane. It controls date formats and the fixed headings inside the
-        newsletter itself.
-      </p>
+    <h2>Two languages, two places</h2>
+    <p>
+      Change the <strong>interface language</strong> at the top of the window. It changes buttons
+      and guidance, never your text. Change the <strong>document language</strong> in the document
+      card inside the editor pane. It controls date formats and the fixed headings inside the
+      newsletter itself.
+    </p>
 
-      <h2>Drafts</h2>
-      <p>
-        Drafts are stored in your browser on this computer. Safari deletes them after seven days of
-        inactivity, and a private browsing session deletes them when you close it. Use
-        <strong>Download all drafts as a file</strong> to keep a backup.
-      </p>
+    <h2>Drafts</h2>
+    <p>
+      Drafts are stored in your browser on this computer. Safari deletes them after seven days of
+      inactivity, and a private browsing session deletes them when you close it. Use
+      <strong>Download all drafts as a file</strong> to keep a backup.
+    </p>
 
-      <h2>Keyboard</h2>
-      <dl>
-        <dt>Move a section</dt>
-        <dd>Alt + Up / Alt + Down, or the buttons on the section.</dd>
-        <dt>Bold and italic</dt>
-        <dd>Ctrl/⌘ + B and Ctrl/⌘ + I.</dd>
-        <dt>Link</dt>
-        <dd>Ctrl/⌘ + K.</dd>
-        <dt>Undo</dt>
-        <dd>Ctrl/⌘ + Z, and Ctrl/⌘ + Shift + Z to redo.</dd>
-        <dt>Leave the text field</dt>
-        <dd>Escape.</dd>
-      </dl>
-    </Fragment>
-  )
-}
+    <h2>Keyboard</h2>
+    <dl>
+      <dt>Move a section</dt>
+      <dd>Alt + Up / Alt + Down, or the buttons on the section.</dd>
+      <dt>Bold and italic</dt>
+      <dd>Ctrl/⌘ + B and Ctrl/⌘ + I.</dd>
+      <dt>Link</dt>
+      <dd>Ctrl/⌘ + K.</dd>
+      <dt>Undo</dt>
+      <dd>Ctrl/⌘ + Z, and Ctrl/⌘ + Shift + Z to redo.</dd>
+      <dt>Leave the text field</dt>
+      <dd>Escape.</dd>
+    </dl>
+  </Fragment>
+)}

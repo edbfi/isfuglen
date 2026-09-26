@@ -1,21 +1,21 @@
 <script lang="ts">
-  import type { Translator } from "../lib/i18n/index";
-  import { agendaItem } from "../lib/model/factory";
-  import type { AgendaBlock } from "../lib/model/types";
+import type { Translator } from "../lib/i18n/index";
+import { agendaItem } from "../lib/model/factory";
+import type { AgendaBlock } from "../lib/model/types";
 
-  /**
-   * Metadata is a labelled form field, never a rich-text region — docs/PLAN.md
-   * §5.3. This is the concrete payoff of the hybrid editor architecture:
-   * `Oplægsholder` gets a real `<label for>` and a real `<input>`, none of which
-   * a ProseMirror node view would give for free.
-   */
-  interface Props {
-    block: AgendaBlock;
-    t: Translator;
-    onchange: () => void;
-  }
+/**
+ * Metadata is a labelled form field, never a rich-text region — docs/PLAN.md
+ * §5.3. This is the concrete payoff of the hybrid editor architecture:
+ * `Oplægsholder` gets a real `<label for>` and a real `<input>`, none of which
+ * a ProseMirror node view would give for free.
+ */
+interface Props {
+  block: AgendaBlock;
+  t: Translator;
+  onchange: () => void;
+}
 
-  let { block, t, onchange }: Props = $props();
+let { block, t, onchange }: Props = $props();
 </script>
 
 <div class="flex flex-col gap-2">
@@ -31,7 +31,7 @@
           class="field-input"
           bind:value={item.text}
           oninput={onchange}
-        />
+        >
       </div>
       <div class="flex min-w-32 flex-1 flex-col gap-1">
         <label class="field-label" for="agenda-presenter-{item.id}">{t("agenda.presenter")}</label>
@@ -40,7 +40,7 @@
           class="field-input"
           bind:value={item.presenter}
           oninput={onchange}
-        />
+        >
       </div>
       <div class="flex w-24 flex-col gap-1">
         <label class="field-label" for="agenda-minutes-{item.id}">{t("agenda.minutes")}</label>
@@ -52,15 +52,15 @@
           max="600"
           bind:value={item.minutes}
           oninput={onchange}
-        />
+        >
       </div>
       <button
         type="button"
         class="btn-ghost text-xs"
         onclick={() => {
-          block.items.splice(index, 1);
-          onchange();
-        }}
+  block.items.splice(index, 1);
+  onchange();
+}}
       >
         {t("agenda.remove")}
       </button>
@@ -72,9 +72,9 @@
       type="button"
       class="btn-secondary text-sm"
       onclick={() => {
-        block.items.push(agendaItem(""));
-        onchange();
-      }}
+  block.items.push(agendaItem(""));
+  onchange();
+}}
     >
       + {t("agenda.add")}
     </button>

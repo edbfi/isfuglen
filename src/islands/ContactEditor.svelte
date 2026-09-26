@@ -1,15 +1,15 @@
 <script lang="ts">
-  import type { Translator } from "../lib/i18n/index";
-  import { contactEntry } from "../lib/model/factory";
-  import type { ContactBlock } from "../lib/model/types";
+import type { Translator } from "../lib/i18n/index";
+import { contactEntry } from "../lib/model/factory";
+import type { ContactBlock } from "../lib/model/types";
 
-  interface Props {
-    block: ContactBlock;
-    t: Translator;
-    onchange: () => void;
-  }
+interface Props {
+  block: ContactBlock;
+  t: Translator;
+  onchange: () => void;
+}
 
-  let { block, t, onchange }: Props = $props();
+let { block, t, onchange }: Props = $props();
 </script>
 
 <div class="flex flex-col gap-2">
@@ -22,7 +22,7 @@
           class="field-input"
           bind:value={entry.name}
           oninput={onchange}
-        />
+        >
       </div>
       <div class="flex flex-col gap-1">
         <label class="field-label" for="contact-role-{entry.id}">{t("contact.role")}</label>
@@ -31,7 +31,7 @@
           class="field-input"
           bind:value={entry.role}
           oninput={onchange}
-        />
+        >
       </div>
       <div class="flex flex-col gap-1">
         <label class="field-label" for="contact-email-{entry.id}">{t("contact.email")}</label>
@@ -41,7 +41,7 @@
           type="email"
           bind:value={entry.email}
           oninput={onchange}
-        />
+        >
       </div>
       <div class="flex flex-col gap-1">
         <label class="field-label" for="contact-phone-{entry.id}">{t("contact.phone")}</label>
@@ -51,7 +51,7 @@
           type="tel"
           bind:value={entry.phone}
           oninput={onchange}
-        />
+        >
       </div>
       <div class="flex flex-col gap-1">
         <label class="field-label" for="contact-url-{entry.id}">{t("contact.url")}</label>
@@ -61,16 +61,16 @@
           type="url"
           bind:value={entry.url}
           oninput={onchange}
-        />
+        >
       </div>
       <div class="flex items-end">
         <button
           type="button"
           class="btn-ghost text-xs"
           onclick={() => {
-            block.entries.splice(index, 1);
-            onchange();
-          }}
+  block.entries.splice(index, 1);
+  onchange();
+}}
         >
           {t("contact.remove")}
         </button>
@@ -83,9 +83,9 @@
       type="button"
       class="btn-secondary text-sm"
       onclick={() => {
-        block.entries.push(contactEntry({}));
-        onchange();
-      }}
+  block.entries.push(contactEntry({}));
+  onchange();
+}}
     >
       + {t("contact.add")}
     </button>

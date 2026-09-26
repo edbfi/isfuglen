@@ -31,7 +31,7 @@ const other: Lang = lang === "da" ? "en" : "da";
     href={pathFor(lang, "home")}
     class="flex items-center gap-3 text-brand no-underline focus-ring rounded-md"
   >
-    <img src={logoSrc} alt="" width="300" height="100" class="h-7 w-auto" />
+    <img src={logoSrc} alt="" width="300" height="100" class="h-7 w-auto">
     <span class="font-serif text-base font-semibold">{t("app.title")}</span>
   </a>
 
@@ -39,17 +39,20 @@ const other: Lang = lang === "da" ? "en" : "da";
     <a
       href={pathFor(lang, "help")}
       class="btn-ghost text-sm"
-      aria-current={page === "help" ? "page" : undefined}>{t("nav.help")}</a
+      aria-current={page === "help" ? "page" : undefined}
+      >{t("nav.help")}</a
     >
     <a
       href={pathFor(lang, "privacy")}
       class="btn-ghost text-sm"
-      aria-current={page === "privacy" ? "page" : undefined}>{t("nav.privacy")}</a
+      aria-current={page === "privacy" ? "page" : undefined}
+      >{t("nav.privacy")}</a
     >
     <a
       href={pathFor(lang, "about")}
       class="btn-ghost text-sm"
-      aria-current={page === "about" ? "page" : undefined}>{t("nav.about")}</a
+      aria-current={page === "about" ? "page" : undefined}
+      >{t("nav.about")}</a
     >
   </nav>
 

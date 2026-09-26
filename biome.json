@@ -1,18 +1,23 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
-  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
   "files": {
+    "ignoreUnknown": true,
     "includes": [
       "**",
-      "!dist",
+      "!!dist",
       "!node_modules",
       "!.astro",
-      "!.gjc",
-      "!.omc",
+      "!!.gjc",
+      "!!.omc",
       "!bun.lock",
-      "!test-results",
-      "!playwright-report",
-      "!public/brand"
+      "!!test-results",
+      "!!playwright-report",
+      "!!public/brand"
     ]
   },
   "formatter": {
@@ -37,8 +42,26 @@
       }
     }
   },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "preset": "recommended"
+      }
+    }
+  },
   "javascript": {
-    "formatter": { "quoteStyle": "double", "trailingCommas": "all" }
+    "formatter": {
+      "quoteStyle": "double",
+      "trailingCommas": "all",
+      "semicolons": "always"
+    }
+  },
+  "html": {
+    "experimentalFullSupportEnabled": true,
+    "formatter": {
+      "enabled": true
+    }
   },
   "overrides": [
     {
@@ -62,12 +85,17 @@
       }
     },
     {
-      "includes": ["**/*.astro", "**/*.svelte"],
-      "formatter": { "enabled": false },
+      "includes": [
+        "src/components/SiteHeader.astro",
+        "src/islands/EditorToolbar.svelte",
+        "src/islands/LanguageSwitch.svelte",
+        "src/islands/ZoomControl.svelte"
+      ],
       "linter": {
         "rules": {
-          "correctness": { "noUnusedVariables": "off", "noUnusedImports": "off" },
-          "style": { "useConst": "off" }
+          "a11y": {
+            "useSemanticElements": "off"
+          }
         }
       }
     }

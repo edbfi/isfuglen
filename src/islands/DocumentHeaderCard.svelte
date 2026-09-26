@@ -1,30 +1,30 @@
 <script lang="ts">
-  import type { Translator } from "../lib/i18n/index";
-  import { inlineToPlain, rich } from "../lib/model/factory";
-  import type { DocLang, NewsletterDoc } from "../lib/model/types";
-  import { parseInline } from "../lib/parser/inline";
-  import { autosize } from "./ui/autosize.svelte";
+import type { Translator } from "../lib/i18n/index";
+import { inlineToPlain, rich } from "../lib/model/factory";
+import type { DocLang, NewsletterDoc } from "../lib/model/types";
+import { parseInline } from "../lib/parser/inline";
+import { autosize } from "./ui/autosize.svelte";
 
-  /**
-   * Document metadata and, deliberately, the document-language control —
-   * docs/PLAN.md §4.3.
-   *
-   * Placing the document language *inside the document*, next to its title, is
-   * what makes the two-axis model legible without explanation: one control lives
-   * with the app, the other lives with the paper.
-   */
-  interface Props {
-    doc: NewsletterDoc;
-    t: Translator;
-    onchange: () => void;
-    ondoclang: (lang: DocLang) => void;
-  }
+/**
+ * Document metadata and, deliberately, the document-language control —
+ * docs/PLAN.md §4.3.
+ *
+ * Placing the document language *inside the document*, next to its title, is
+ * what makes the two-axis model legible without explanation: one control lives
+ * with the app, the other lives with the paper.
+ */
+interface Props {
+  doc: NewsletterDoc;
+  t: Translator;
+  onchange: () => void;
+  ondoclang: (lang: DocLang) => void;
+}
 
-  let { doc, t, onchange, ondoclang }: Props = $props();
+let { doc, t, onchange, ondoclang }: Props = $props();
 
-  let expanded = $state(true);
+let expanded = $state(true);
 
-  const introText = $derived(doc.intro ? inlineToPlain(doc.intro) : "");
+const introText = $derived(doc.intro ? inlineToPlain(doc.intro) : "");
 </script>
 
 <section
@@ -41,8 +41,8 @@
       aria-expanded={expanded}
       aria-controls="doc-card-fields"
       onclick={() => {
-        expanded = !expanded;
-      }}
+  expanded = !expanded;
+}}
     >
       {expanded ? t("doc.collapse") : t("doc.expand")}
     </button>
@@ -57,7 +57,7 @@
         bind:value={doc.meta.title}
         placeholder={t("doc.titlePlaceholder")}
         oninput={onchange}
-      />
+      >
     </div>
 
     <div class="flex flex-col gap-1">
@@ -68,7 +68,7 @@
         bind:value={doc.meta.subtitle}
         placeholder={t("doc.subtitlePlaceholder")}
         oninput={onchange}
-      />
+      >
     </div>
 
     <!--
@@ -87,10 +87,11 @@
         value={introText}
         use:autosize={{ min: 5, max: 16, value: () => introText }}
         oninput={(event) => {
-          const value = event.currentTarget.value;
-          doc.intro = value.length > 0 ? parseInline(value) : rich("");
-          onchange();
-        }}></textarea>
+  const value = event.currentTarget.value;
+  doc.intro = value.length > 0 ? parseInline(value) : rich("");
+  onchange();
+}}
+      ></textarea>
     </div>
 
     <div class="grid gap-3 sm:grid-cols-3">
@@ -102,7 +103,7 @@
           type="date"
           bind:value={doc.meta.date}
           oninput={onchange}
-        />
+        >
       </div>
       <div class="flex flex-col gap-1">
         <label class="field-label" for="doc-time-start">{t("doc.timeStart")}</label>
@@ -112,7 +113,7 @@
           type="time"
           bind:value={doc.meta.timeStart}
           oninput={onchange}
-        />
+        >
       </div>
       <div class="flex flex-col gap-1">
         <label class="field-label" for="doc-time-end">{t("doc.timeEnd")}</label>
@@ -122,7 +123,7 @@
           type="time"
           bind:value={doc.meta.timeEnd}
           oninput={onchange}
-        />
+        >
       </div>
     </div>
 
@@ -134,7 +135,7 @@
         bind:value={doc.meta.location}
         placeholder={t("doc.locationPlaceholder")}
         oninput={onchange}
-      />
+      >
     </div>
 
     <div class="grid gap-3 sm:grid-cols-2">
@@ -145,7 +146,7 @@
           class="field-input"
           bind:value={doc.meta.organisation}
           oninput={onchange}
-        />
+        >
       </div>
       <div class="flex flex-col gap-1">
         <label class="field-label" for="doc-footer">{t("doc.footerNote")}</label>
@@ -154,7 +155,7 @@
           class="field-input"
           bind:value={doc.meta.footerNote}
           oninput={onchange}
-        />
+        >
       </div>
     </div>
 
