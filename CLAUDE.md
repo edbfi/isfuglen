@@ -131,8 +131,7 @@ nav links in `src/components/SiteHeader.astro`, and the paths in `.github/script
 
 - Conventional Commits are enforced at `commit-msg`, and `no-commit-to-branch` blocks commits
   to `main`. Branch, then open a PR. Hooks fire only after `prek install`.
-- CI lints read-only (`biome ci`), so run `bun run format` before committing. `CI.md` has the
-  exact local reproduction of the CI lanes.
+- Run `bun run format` before committing and `bash .github/scripts/check.sh` for local validation.
 
 ## Reference
 
