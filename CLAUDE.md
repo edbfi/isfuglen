@@ -16,14 +16,12 @@ Bun only. The `no-npm` hook in `prek.toml` rejects `npm`/`pnpm`/`yarn`/`npx` in 
 | Build | `bun run build` (runs `build:assets` first) |
 | Typecheck | `bun run check` (`astro check` + `svelte-check` + native `--tsgo` pass; plain `tsc` sees no `.astro`/`.svelte`) |
 | Format + lint (write) | `bun run format` |
-| Lint (read-only, as CI) | `bunx --bun biome ci .` |
+| Lint (read-only) | `bunx --bun biome ci .` |
 | Unit tests | `bun test` (root is `tests/unit` via `bunfig.toml`) |
 | One unit file / case | `bun test tests/unit/parser/dates.test.ts -t "day-first"` (`-t` is a regex) |
-| Deploy-script tests (Python) | `python3 -B -m unittest discover -s tests -p 'test_*.py'` |
 | E2E | `bun run build`, then `bun run test:e2e` |
 | One E2E file / case | `bunx --bun playwright test tests/e2e/core-flow.spec.ts -g "title regex"` |
 | Bundle budget | `bun run check:bundle` |
-| Everything CI's quality lane runs | `bash .github/scripts/check.sh` |
 
 - Run unit tests from the repo root: several read files by cwd-relative path (`Bun.file("src/styles/tokens.css")`).
 - On a clean checkout run `bun run build:assets` before `bun test`; `tests/unit/export/docx.test.ts`
@@ -127,14 +125,15 @@ const parsed = draftIndexSchema.safeParse(raw ?? []);
 **New static page:** add both `src/pages/<danish-slug>.astro` and `src/pages/en/<slug>.astro`
 (routes are translated, not just prefixed), content in `src/content/<Name>Content.astro`, a
 `PageKey` plus both paths in `src/lib/i18n/routes.ts` (the only place that knows the mapping),
-nav links in `src/components/SiteHeader.astro`, and the paths in `.github/scripts/smoke.sh`,
+nav links in `src/components/SiteHeader.astro`, and the paths in
 `tests/e2e/accessibility.spec.ts` and `tests/unit/i18n/routes.test.ts`.
 
-## Git and CI
+## Git
 
 - Conventional Commits are enforced at `commit-msg`, and `no-commit-to-branch` blocks commits
   to `main`. Branch, then open a PR. Hooks fire only after `prek install`.
-- Run `bun run format` before committing and `bash .github/scripts/check.sh` for local validation.
+- Run `bun run format` before committing. For local validation run `bunx --bun biome ci .`,
+  `bun run check`, `bun test` and `bun run check:bundle`.
 
 ## Reference
 
