@@ -1,16 +1,16 @@
 <script lang="ts">
-  import type { Translator } from "../lib/i18n/index";
-  import { inlineToPlain, rich } from "../lib/model/factory";
-  import type { NoticeBlock } from "../lib/model/types";
-  import { parseInline } from "../lib/parser/inline";
+import type { Translator } from "../lib/i18n/index";
+import { inlineToPlain, rich } from "../lib/model/factory";
+import type { NoticeBlock } from "../lib/model/types";
+import { parseInline } from "../lib/parser/inline";
 
-  interface Props {
-    block: NoticeBlock;
-    t: Translator;
-    onchange: () => void;
-  }
+interface Props {
+  block: NoticeBlock;
+  t: Translator;
+  onchange: () => void;
+}
 
-  let { block, t, onchange }: Props = $props();
+let { block, t, onchange }: Props = $props();
 </script>
 
 <div class="flex flex-col gap-2">
@@ -30,7 +30,7 @@
         bind:value={block.title}
         oninput={onchange}
         placeholder={block.tone === "important" ? t("notice.toneImportant") : t("notice.toneInfo")}
-      />
+      >
     </div>
   </div>
 
@@ -42,9 +42,10 @@
       rows="3"
       value={inlineToPlain(block.content)}
       oninput={(event) => {
-        const value = event.currentTarget.value;
-        block.content = value.length > 0 ? parseInline(value) : rich("");
-        onchange();
-      }}></textarea>
+  const value = event.currentTarget.value;
+  block.content = value.length > 0 ? parseInline(value) : rich("");
+  onchange();
+}}
+    ></textarea>
   </div>
 </div>

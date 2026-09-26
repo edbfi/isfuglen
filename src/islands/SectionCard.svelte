@@ -1,137 +1,136 @@
 <script lang="ts">
-  import type { Translator } from "../lib/i18n/index";
-  import type { Block, DocLang, Section } from "../lib/model/types";
-  import type { BodyBlock } from "../lib/render/tiptap";
-  import { isBodyBlock } from "../lib/render/tiptap";
-  import ActionItemsEditor from "./ActionItemsEditor.svelte";
-  import AgendaEditor from "./AgendaEditor.svelte";
-  import ClosingEditor from "./ClosingEditor.svelte";
-  import ContactEditor from "./ContactEditor.svelte";
-  import NoticeEditor from "./NoticeEditor.svelte";
-  import QuoteEditor from "./QuoteEditor.svelte";
-  import RichTextEditor from "./RichTextEditor.svelte";
-  import TextListEditor from "./TextListEditor.svelte";
-  import Menu from "./ui/Menu.svelte";
+import type { Translator } from "../lib/i18n/index";
+import type { Block, DocLang, Section } from "../lib/model/types";
+import type { BodyBlock } from "../lib/render/tiptap";
+import { isBodyBlock } from "../lib/render/tiptap";
+import ActionItemsEditor from "./ActionItemsEditor.svelte";
+import AgendaEditor from "./AgendaEditor.svelte";
+import ClosingEditor from "./ClosingEditor.svelte";
+import ContactEditor from "./ContactEditor.svelte";
+import NoticeEditor from "./NoticeEditor.svelte";
+import QuoteEditor from "./QuoteEditor.svelte";
+import RichTextEditor from "./RichTextEditor.svelte";
+import TextListEditor from "./TextListEditor.svelte";
+import Menu from "./ui/Menu.svelte";
 
-  /**
-   * One section — docs/PLAN.md §5.2, §5.3.
-   *
-   * Structure is manipulated here: add, delete, reorder, retype. Text is edited
-   * inline. The card is an `<article>` labelled by its own heading input, and
-   * reordering has no drag-only path: `Alt+↑` / `Alt+↓` and the visible buttons
-   * are the primary mechanism, which is also faster for everyone (§17.2).
-   */
-  interface Props {
-    section: Section;
-    index: number;
-    total: number;
-    docLang: DocLang;
-    t: Translator;
-    onchange: () => void;
-    onmove: (delta: number) => void;
-    onremove: () => void;
-    onheading: (value: string) => void;
-    onbodychange: (start: number, count: number, blocks: BodyBlock[]) => void;
-    onacknowledge: (blockId: string) => void;
-    /** The parser split where the writer did not: join this section to the one above. */
-    onmergeup: () => void;
-    /** The parser read a line as a heading that was never one: put it back in the body. */
-    onheadingtotext: () => void;
-    /** Lay a large structured paste out as sections, replacing this one. */
-    onformatpaste: (raw: string) => void;
-  }
+/**
+ * One section — docs/PLAN.md §5.2, §5.3.
+ *
+ * Structure is manipulated here: add, delete, reorder, retype. Text is edited
+ * inline. The card is an `<article>` labelled by its own heading input, and
+ * reordering has no drag-only path: `Alt+↑` / `Alt+↓` and the visible buttons
+ * are the primary mechanism, which is also faster for everyone (§17.2).
+ */
+interface Props {
+  section: Section;
+  index: number;
+  total: number;
+  docLang: DocLang;
+  t: Translator;
+  onchange: () => void;
+  onmove: (delta: number) => void;
+  onremove: () => void;
+  onheading: (value: string) => void;
+  onbodychange: (start: number, count: number, blocks: BodyBlock[]) => void;
+  onacknowledge: (blockId: string) => void;
+  /** The parser split where the writer did not: join this section to the one above. */
+  onmergeup: () => void;
+  /** The parser read a line as a heading that was never one: put it back in the body. */
+  onheadingtotext: () => void;
+  /** Lay a large structured paste out as sections, replacing this one. */
+  onformatpaste: (raw: string) => void;
+}
 
-  let {
-    section,
-    index,
-    total,
-    docLang,
-    t,
-    onchange,
-    onmove,
-    onremove,
-    onheading,
-    onbodychange,
-    onacknowledge,
-    onmergeup,
-    onheadingtotext,
-    onformatpaste,
-  }: Props = $props();
+let {
+  section,
+  index,
+  total,
+  docLang,
+  t,
+  onchange,
+  onmove,
+  onremove,
+  onheading,
+  onbodychange,
+  onacknowledge,
+  onmergeup,
+  onheadingtotext,
+  onformatpaste,
+}: Props = $props();
 
-  type Group =
-    | { kind: "body"; start: number; blocks: BodyBlock[] }
-    | { kind: "block"; start: number; block: Block };
+type Group =
+  | { kind: "body"; start: number; blocks: BodyBlock[] }
+  | { kind: "block"; start: number; block: Block };
 
-  /** Consecutive paragraphs and lists share one editor; everything else gets a form. */
-  const groups = $derived.by<Group[]>(() => {
-    const out: Group[] = [];
-    section.blocks.forEach((block, position) => {
-      if (isBodyBlock(block)) {
-        const last = out.at(-1);
-        if (last?.kind === "body") {
-          last.blocks.push(block);
-          return;
-        }
-        out.push({ kind: "body", start: position, blocks: [block] });
+/** Consecutive paragraphs and lists share one editor; everything else gets a form. */
+const groups = $derived.by<Group[]>(() => {
+  const out: Group[] = [];
+  section.blocks.forEach((block, position) => {
+    if (isBodyBlock(block)) {
+      const last = out.at(-1);
+      if (last?.kind === "body") {
+        last.blocks.push(block);
         return;
       }
-      out.push({ kind: "block", start: position, block });
-    });
-    return out;
-  });
-
-  const uncertain = $derived(
-    section.confidence === "low" || section.blocks.some((block) => block.confidence === "low"),
-  );
-
-  /**
-   * Naming the guess is worth more than repeating "we were unsure". A list the
-   * parser reconstructed from a missing marker is the one case where the user
-   * can check the answer at a glance, so it says which guess it made.
-   */
-  const guessedList = $derived(
-    section.blocks.some(
-      (block) =>
-        block.confidence === "low" &&
-        (block.sourceRuleId ?? "").endsWith("structure.recoveredList"),
-    ),
-  );
-
-  const name = $derived(section.heading?.text.trim() || t("section.untitled"));
-  const headingId = $derived(`section-heading-${section.id}`);
-
-  let card = $state<HTMLElement>();
-
-  /**
-   * `Alt+↑` / `Alt+↓` reorder from anywhere inside the card. Attached as a real
-   * listener rather than a template handler so the element stays an `<article>`:
-   * the landmark semantics matter more than the convenience of the shorthand.
-   */
-  $effect(() => {
-    const element = card;
-    if (!element) return;
-    const handler = (event: KeyboardEvent) => {
-      if (!event.altKey) return;
-      if (event.key === "ArrowUp") {
-        event.preventDefault();
-        onmove(-1);
-      }
-      if (event.key === "ArrowDown") {
-        event.preventDefault();
-        onmove(1);
-      }
-    };
-    element.addEventListener("keydown", handler);
-    return () => element.removeEventListener("keydown", handler);
-  });
-
-  function acknowledge(): void {
-    for (const block of section.blocks) {
-      if (block.confidence === "low") onacknowledge(block.id);
+      out.push({ kind: "body", start: position, blocks: [block] });
+      return;
     }
-    section.confidence = undefined;
-    onchange();
+    out.push({ kind: "block", start: position, block });
+  });
+  return out;
+});
+
+const uncertain = $derived(
+  section.confidence === "low" || section.blocks.some((block) => block.confidence === "low"),
+);
+
+/**
+ * Naming the guess is worth more than repeating "we were unsure". A list the
+ * parser reconstructed from a missing marker is the one case where the user
+ * can check the answer at a glance, so it says which guess it made.
+ */
+const guessedList = $derived(
+  section.blocks.some(
+    (block) =>
+      block.confidence === "low" && (block.sourceRuleId ?? "").endsWith("structure.recoveredList"),
+  ),
+);
+
+const name = $derived(section.heading?.text.trim() || t("section.untitled"));
+const headingId = $derived(`section-heading-${section.id}`);
+
+let card = $state<HTMLElement>();
+
+/**
+ * `Alt+↑` / `Alt+↓` reorder from anywhere inside the card. Attached as a real
+ * listener rather than a template handler so the element stays an `<article>`:
+ * the landmark semantics matter more than the convenience of the shorthand.
+ */
+$effect(() => {
+  const element = card;
+  if (!element) return;
+  const handler = (event: KeyboardEvent) => {
+    if (!event.altKey) return;
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      onmove(-1);
+    }
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      onmove(1);
+    }
+  };
+  element.addEventListener("keydown", handler);
+  return () => element.removeEventListener("keydown", handler);
+});
+
+function acknowledge(): void {
+  for (const block of section.blocks) {
+    if (block.confidence === "low") onacknowledge(block.id);
   }
+  section.confidence = undefined;
+  onchange();
+}
 </script>
 
 <article
@@ -153,7 +152,7 @@
         value={section.heading?.text ?? ""}
         placeholder={t("section.headingPlaceholder")}
         oninput={(event) => onheading(event.currentTarget.value)}
-      />
+      >
     </div>
 
     <div class="flex items-center gap-1">
@@ -162,17 +161,21 @@
         class="btn-ghost px-2 py-1 text-sm"
         disabled={index === 0}
         aria-label={t("section.moveUp")}
-        title="{t('section.moveUp')} (Alt+↑)"
-        onclick={() => onmove(-1)}>↑</button
+        title="{t("section.moveUp")} (Alt+↑)"
+        onclick={() => onmove(-1)}
       >
+        ↑
+      </button>
       <button
         type="button"
         class="btn-ghost px-2 py-1 text-sm"
         disabled={index === total - 1}
         aria-label={t("section.moveDown")}
-        title="{t('section.moveDown')} (Alt+↓)"
-        onclick={() => onmove(1)}>↓</button
+        title="{t("section.moveDown")} (Alt+↓)"
+        onclick={() => onmove(1)}
       >
+        ↓
+      </button>
 
       <!--
         Reordering is inline because it is constant and has a keyboard twin.
@@ -191,7 +194,9 @@
           ⋯
         {/snippet}
 
-        {#snippet children({ close })}
+        {#snippet children({
+  close,
+})}
           {#if section.heading}
             <button
               type="button"
@@ -199,9 +204,9 @@
               tabindex="-1"
               class="block w-full px-4 py-2 text-left text-sm text-ink hover:bg-surface-sunken focus-ring"
               onclick={() => {
-                close();
-                onheadingtotext();
-              }}
+  close();
+  onheadingtotext();
+}}
             >
               {t("section.headingToText")}
             </button>
@@ -218,9 +223,9 @@
               tabindex="-1"
               class="block w-full px-4 py-2 text-left text-sm text-ink hover:bg-surface-sunken focus-ring"
               onclick={() => {
-                close();
-                onmergeup();
-              }}
+  close();
+  onmergeup();
+}}
             >
               {t("section.mergeUp")}
             </button>
@@ -231,9 +236,9 @@
             tabindex="-1"
             class="block w-full border-t border-hairline px-4 py-2 text-left text-sm text-ink hover:bg-surface-sunken focus-ring"
             onclick={() => {
-              close();
-              if (confirm(t("section.removeConfirm", { name }))) onremove();
-            }}
+  close();
+  if (confirm(t("section.removeConfirm", { name }))) onremove();
+}}
           >
             {t("section.remove")}
           </button>
@@ -301,7 +306,7 @@
             class="field-input text-sm font-semibold uppercase tracking-wide"
             bind:value={group.block.text}
             oninput={onchange}
-          />
+          >
         </div>
       {/if}
     {/each}

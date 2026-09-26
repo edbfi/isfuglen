@@ -9,80 +9,78 @@ const { lang } = Astro.props;
 const da = lang === "da";
 ---
 
-{
-  da ? (
-    <Fragment>
-      <h2>Hvad det er</h2>
-      <p>
-        Et værktøj til tillidsrepræsentanter og klubbestyrelser i Ishøj Lærerkreds. Det gør én ting:
-        det tager de noter, du allerede har skrevet, og sætter dem op som et nyhedsbrev, der ser ud,
-        som om kredsen har en grafiker ansat.
-      </p>
+{da ? (
+  <Fragment>
+    <h2>Hvad det er</h2>
+    <p>
+      Et værktøj til tillidsrepræsentanter og klubbestyrelser i Ishøj Lærerkreds. Det gør én ting:
+      det tager de noter, du allerede har skrevet, og sætter dem op som et nyhedsbrev, der ser ud,
+      som om kredsen har en grafiker ansat.
+    </p>
 
-      <h2>Hvem det er til</h2>
-      <p>
-        En lærer med en travl dag, en bunke noter fra et klubmøde og ti minutter til rådighed. Ikke
-        en designer. Der er derfor ingen skrifttypevælger, ingen farvevælger og ingen indstilling
-        for linjeafstand — og det er med vilje. Man kan ikke lave et grimt nyhedsbrev med det her.
-      </p>
+    <h2>Hvem det er til</h2>
+    <p>
+      En lærer med en travl dag, en bunke noter fra et klubmøde og ti minutter til rådighed. Ikke en
+      designer. Der er derfor ingen skrifttypevælger, ingen farvevælger og ingen indstilling for
+      linjeafstand — og det er med vilje. Man kan ikke lave et grimt nyhedsbrev med det her.
+    </p>
 
-      <h2>Hvad det bevidst ikke gør</h2>
-      <ul>
-        <li>Ingen login, ingen konto, ingen sky.</li>
-        <li>Ingen samtidig redigering og ingen deling gennem værktøjet.</li>
-        <li>Ingen kunstig intelligens. Genkendelsen er regler, du kan læse og rette.</li>
-        <li>Ingen tabeller, billeder eller frie farver. Det er ikke et tekstbehandlingsprogram.</li>
-      </ul>
+    <h2>Hvad det bevidst ikke gør</h2>
+    <ul>
+      <li>Ingen login, ingen konto, ingen sky.</li>
+      <li>Ingen samtidig redigering og ingen deling gennem værktøjet.</li>
+      <li>Ingen kunstig intelligens. Genkendelsen er regler, du kan læse og rette.</li>
+      <li>Ingen tabeller, billeder eller frie farver. Det er ikke et tekstbehandlingsprogram.</li>
+    </ul>
 
-      <h2>Sådan er det bygget</h2>
-      <p>
-        Astro og Svelte, bygget til statiske filer. Der er ingen server bag det, og det er ikke en
-        besparelse — det er den eneste måde at kunne love, at din tekst ikke går nogen steder hen.
-      </p>
+    <h2>Sådan er det bygget</h2>
+    <p>
+      Astro og Svelte, bygget til statiske filer. Der er ingen server bag det, og det er ikke en
+      besparelse — det er den eneste måde at kunne love, at din tekst ikke går nogen steder hen.
+    </p>
 
-      <h2>Logoet</h2>
-      <p>
-        Mærket er kredsens eget: Danmarks Lærerforenings runde emblem og ordmærket «Ishøj
-        Lærerkreds». Filen ligger uændret i værktøjet. Den bliver aldrig farvet om, beskåret eller
-        strakt — bredden bliver sat, og højden følger med.
-      </p>
-    </Fragment>
-  ) : (
-    <Fragment>
-      <h2>What it is</h2>
-      <p>
-        A tool for union representatives and club committees in Ishøj Lærerkreds. It does one thing:
-        it takes the notes you have already written and lays them out as a newsletter that looks
-        like the branch has a designer on staff.
-      </p>
+    <h2>Logoet</h2>
+    <p>
+      Mærket er kredsens eget: Danmarks Lærerforenings runde emblem og ordmærket «Ishøj Lærerkreds».
+      Filen ligger uændret i værktøjet. Den bliver aldrig farvet om, beskåret eller strakt — bredden
+      bliver sat, og højden følger med.
+    </p>
+  </Fragment>
+) : (
+  <Fragment>
+    <h2>What it is</h2>
+    <p>
+      A tool for union representatives and club committees in Ishøj Lærerkreds. It does one thing:
+      it takes the notes you have already written and lays them out as a newsletter that looks like
+      the branch has a designer on staff.
+    </p>
 
-      <h2>Who it is for</h2>
-      <p>
-        A teacher with a busy day, a pile of notes from a club meeting and ten minutes to spare. Not
-        a designer. That is why there is no font picker, no colour picker and no line-height setting
-        — deliberately. You cannot make an ugly newsletter with this.
-      </p>
+    <h2>Who it is for</h2>
+    <p>
+      A teacher with a busy day, a pile of notes from a club meeting and ten minutes to spare. Not a
+      designer. That is why there is no font picker, no colour picker and no line-height setting —
+      deliberately. You cannot make an ugly newsletter with this.
+    </p>
 
-      <h2>What it deliberately does not do</h2>
-      <ul>
-        <li>No login, no account, no cloud.</li>
-        <li>No simultaneous editing and no sharing through the tool.</li>
-        <li>No artificial intelligence. The recognition is rules you can read and correct.</li>
-        <li>No tables, images or free colour choice. This is not a word processor.</li>
-      </ul>
+    <h2>What it deliberately does not do</h2>
+    <ul>
+      <li>No login, no account, no cloud.</li>
+      <li>No simultaneous editing and no sharing through the tool.</li>
+      <li>No artificial intelligence. The recognition is rules you can read and correct.</li>
+      <li>No tables, images or free colour choice. This is not a word processor.</li>
+    </ul>
 
-      <h2>How it is built</h2>
-      <p>
-        Astro and Svelte, built to static files. There is no server behind it, and that is not a
-        cost saving — it is the only way to be able to promise that your text goes nowhere.
-      </p>
+    <h2>How it is built</h2>
+    <p>
+      Astro and Svelte, built to static files. There is no server behind it, and that is not a cost
+      saving — it is the only way to be able to promise that your text goes nowhere.
+    </p>
 
-      <h2>The logo</h2>
-      <p>
-        The mark is the branch's own: the Danmarks Lærerforening roundel and the "Ishøj Lærerkreds"
-        wordmark. The file sits in the tool unmodified. It is never recoloured, cropped or stretched
-        — the width is set, and the height follows.
-      </p>
-    </Fragment>
-  )
-}
+    <h2>The logo</h2>
+    <p>
+      The mark is the branch's own: the Danmarks Lærerforening roundel and the "Ishøj Lærerkreds"
+      wordmark. The file sits in the tool unmodified. It is never recoloured, cropped or stretched —
+      the width is set, and the height follows.
+    </p>
+  </Fragment>
+)}

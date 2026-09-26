@@ -9,156 +9,154 @@ const { lang } = Astro.props;
 const da = lang === "da";
 ---
 
-{
-  da ? (
-    <Fragment>
-      <h2>Kort fortalt</h2>
-      <p>
-        Værktøjet kører udelukkende i din browser. Der er ingen server, ingen konto, ingen database
-        og ingen statistik. Din tekst forlader ikke computeren.
-      </p>
+{da ? (
+  <Fragment>
+    <h2>Kort fortalt</h2>
+    <p>
+      Værktøjet kører udelukkende i din browser. Der er ingen server, ingen konto, ingen database og
+      ingen statistik. Din tekst forlader ikke computeren.
+    </p>
 
-      <h2>Hvad der gemmes, og hvor</h2>
-      <dl>
-        <dt>Sprogvalg og indstillinger</dt>
-        <dd>
-          Gemmes i browserens <code>localStorage</code> under nøglerne <code>nl.uiLang</code>,
-          <code>nl.docLang</code> og <code>nl.settings</code>.
-        </dd>
-        <dt>Nyhedsbrevet, du arbejder på</dt>
-        <dd>
-          Gemmes automatisk i browserens IndexedDB under <code>nl.current</code>, så du ikke mister
-          arbejde ved et uheld.
-        </dd>
-        <dt>Navngivne kladder</dt>
-        <dd>
-          Gemmes samme sted under <code>nl.draft.&lt;id&gt;</code>.
-        </dd>
-      </dl>
-      <p>
-        Alt af det ligger på denne computer, i denne browserprofil. Intet sendes nogen steder hen.
-      </p>
+    <h2>Hvad der gemmes, og hvor</h2>
+    <dl>
+      <dt>Sprogvalg og indstillinger</dt>
+      <dd>
+        Gemmes i browserens <code>localStorage</code> under nøglerne <code>nl.uiLang</code>,
+        <code>nl.docLang</code> og <code>nl.settings</code>.
+      </dd>
+      <dt>Nyhedsbrevet, du arbejder på</dt>
+      <dd>
+        Gemmes automatisk i browserens IndexedDB under <code>nl.current</code>, så du ikke mister
+        arbejde ved et uheld.
+      </dd>
+      <dt>Navngivne kladder</dt>
+      <dd>
+        Gemmes samme sted under <code>nl.draft.&lt;id&gt;</code>.
+      </dd>
+    </dl>
+    <p>
+      Alt af det ligger på denne computer, i denne browserprofil. Intet sendes nogen steder hen.
+    </p>
 
-      <h2>Det er ikke krypteret</h2>
-      <p>
-        Kladder gemmes i din browser på denne computer. De er ikke krypterede, og de er ikke egnede
-        til stærkt fortrolige oplysninger. Andre med adgang til computeren og denne browserprofil
-        kan læse dem.
-        <strong>Brug ikke værktøjet til personsager eller helbredsoplysninger.</strong>
-      </p>
+    <h2>Det er ikke krypteret</h2>
+    <p>
+      Kladder gemmes i din browser på denne computer. De er ikke krypterede, og de er ikke egnede
+      til stærkt fortrolige oplysninger. Andre med adgang til computeren og denne browserprofil kan
+      læse dem.
+      <strong>Brug ikke værktøjet til personsager eller helbredsoplysninger.</strong>
+    </p>
 
-      <h2>Sådan sletter du det hele</h2>
-      <p>
-        Åbn <strong>Kladder</strong> i nyhedsbrevets vindue og vælg
-        <strong>Slet alle gemte data</strong>. Det rydder både indstillinger og kladder og
-        genindlæser siden. Der er ikke andre kopier.
-      </p>
+    <h2>Sådan sletter du det hele</h2>
+    <p>
+      Åbn <strong>Kladder</strong> i nyhedsbrevets vindue og vælg
+      <strong>Slet alle gemte data</strong>. Det rydder både indstillinger og kladder og genindlæser
+      siden. Der er ikke andre kopier.
+    </p>
 
-      <h2>Hvor længe ligger det?</h2>
-      <p>Indtil du sletter det — med tre undtagelser, som browseren bestemmer over, ikke vi:</p>
-      <ul>
-        <li>Safari sletter alle gemte data efter syv dage uden brug af siden.</li>
-        <li>Private vinduer sletter alt, når det sidste vindue lukkes.</li>
-        <li>Nogle skoleadministrerede browsere rydder sitedata ved log ud.</li>
-      </ul>
-      <p>
-        Derfor findes <strong>Hent alle kladder som fil</strong>. Den downloadede fil er den eneste
-        varige sikkerhedskopi, og den ligger, hvor du gemmer den.
-      </p>
+    <h2>Hvor længe ligger det?</h2>
+    <p>Indtil du sletter det — med tre undtagelser, som browseren bestemmer over, ikke vi:</p>
+    <ul>
+      <li>Safari sletter alle gemte data efter syv dage uden brug af siden.</li>
+      <li>Private vinduer sletter alt, når det sidste vindue lukkes.</li>
+      <li>Nogle skoleadministrerede browsere rydder sitedata ved log ud.</li>
+    </ul>
+    <p>
+      Derfor findes <strong>Hent alle kladder som fil</strong>. Den downloadede fil er den eneste
+      varige sikkerhedskopi, og den ligger, hvor du gemmer den.
+    </p>
 
-      <h2>Hvad værktøjet aldrig gør</h2>
-      <ul>
-        <li>Sender din tekst til en server. Der er ingen.</li>
-        <li>Bruger cookies til at genkende dig.</li>
-        <li>Indlæser skrifttyper, scripts eller billeder fra andre domæner.</li>
-        <li>Måler din adfærd eller sender fejlrapporter.</li>
-        <li>Bruger kunstig intelligens eller oversættelsestjenester.</li>
-      </ul>
-      <p>
-        Siden er sat op med en Content Security Policy, der kun tillader forbindelser til sitet
-        selv, og den automatiske test fejler, hvis der opstår så meget som én netværksanmodning til
-        et andet domæne under et helt forløb fra indsat tekst til færdig eksport.
-      </p>
+    <h2>Hvad værktøjet aldrig gør</h2>
+    <ul>
+      <li>Sender din tekst til en server. Der er ingen.</li>
+      <li>Bruger cookies til at genkende dig.</li>
+      <li>Indlæser skrifttyper, scripts eller billeder fra andre domæner.</li>
+      <li>Måler din adfærd eller sender fejlrapporter.</li>
+      <li>Bruger kunstig intelligens eller oversættelsestjenester.</li>
+    </ul>
+    <p>
+      Siden er sat op med en Content Security Policy, der kun tillader forbindelser til sitet selv,
+      og den automatiske test fejler, hvis der opstår så meget som én netværksanmodning til et andet
+      domæne under et helt forløb fra indsat tekst til færdig eksport.
+    </p>
 
-      <h2>Spørgsmål</h2>
-      <p>
-        Kontakt kredskontoret. Værktøjet er lavet til Ishøj Lærerkreds og drives ikke af en
-        tredjepart.
-      </p>
-    </Fragment>
-  ) : (
-    <Fragment>
-      <h2>In short</h2>
-      <p>
-        The tool runs entirely in your browser. There is no server, no account, no database and no
-        analytics. Your text never leaves this computer.
-      </p>
+    <h2>Spørgsmål</h2>
+    <p>
+      Kontakt kredskontoret. Værktøjet er lavet til Ishøj Lærerkreds og drives ikke af en
+      tredjepart.
+    </p>
+  </Fragment>
+) : (
+  <Fragment>
+    <h2>In short</h2>
+    <p>
+      The tool runs entirely in your browser. There is no server, no account, no database and no
+      analytics. Your text never leaves this computer.
+    </p>
 
-      <h2>What is stored, and where</h2>
-      <dl>
-        <dt>Language choice and settings</dt>
-        <dd>
-          Stored in the browser's <code>localStorage</code> under the keys <code>nl.uiLang</code>,
-          <code>nl.docLang</code> and <code>nl.settings</code>.
-        </dd>
-        <dt>The newsletter you are working on</dt>
-        <dd>
-          Saved automatically in the browser's IndexedDB under <code>nl.current</code>, so you do
-          not lose work by accident.
-        </dd>
-        <dt>Named drafts</dt>
-        <dd>
-          Stored in the same place under <code>nl.draft.&lt;id&gt;</code>.
-        </dd>
-      </dl>
-      <p>All of it lives on this computer, in this browser profile. Nothing is sent anywhere.</p>
+    <h2>What is stored, and where</h2>
+    <dl>
+      <dt>Language choice and settings</dt>
+      <dd>
+        Stored in the browser's <code>localStorage</code> under the keys <code>nl.uiLang</code>,
+        <code>nl.docLang</code> and <code>nl.settings</code>.
+      </dd>
+      <dt>The newsletter you are working on</dt>
+      <dd>
+        Saved automatically in the browser's IndexedDB under <code>nl.current</code>, so you do not
+        lose work by accident.
+      </dd>
+      <dt>Named drafts</dt>
+      <dd>
+        Stored in the same place under <code>nl.draft.&lt;id&gt;</code>.
+      </dd>
+    </dl>
+    <p>All of it lives on this computer, in this browser profile. Nothing is sent anywhere.</p>
 
-      <h2>It is not encrypted</h2>
-      <p>
-        Drafts are stored in your browser on this computer. They are not encrypted and are not
-        suitable for highly confidential information. Anyone with access to this computer and this
-        browser profile can read them.
-        <strong>Do not use this tool for individual member cases or health information.</strong>
-      </p>
+    <h2>It is not encrypted</h2>
+    <p>
+      Drafts are stored in your browser on this computer. They are not encrypted and are not
+      suitable for highly confidential information. Anyone with access to this computer and this
+      browser profile can read them.
+      <strong>Do not use this tool for individual member cases or health information.</strong>
+    </p>
 
-      <h2>How to delete everything</h2>
-      <p>
-        Open <strong>Drafts</strong> in the newsletter window and choose
-        <strong>Delete all stored data</strong>. That clears both settings and drafts and reloads
-        the page. There are no other copies.
-      </p>
+    <h2>How to delete everything</h2>
+    <p>
+      Open <strong>Drafts</strong> in the newsletter window and choose
+      <strong>Delete all stored data</strong>. That clears both settings and drafts and reloads the
+      page. There are no other copies.
+    </p>
 
-      <h2>How long does it stay?</h2>
-      <p>Until you delete it — with three exceptions the browser decides, not us:</p>
-      <ul>
-        <li>Safari deletes all stored data after seven days without using the site.</li>
-        <li>Private windows delete everything when the last window closes.</li>
-        <li>Some school-managed browsers clear site data on sign-out.</li>
-      </ul>
-      <p>
-        That is why <strong>Download all drafts as a file</strong> exists. The downloaded file is
-        the only durable backup, and it lives wherever you save it.
-      </p>
+    <h2>How long does it stay?</h2>
+    <p>Until you delete it — with three exceptions the browser decides, not us:</p>
+    <ul>
+      <li>Safari deletes all stored data after seven days without using the site.</li>
+      <li>Private windows delete everything when the last window closes.</li>
+      <li>Some school-managed browsers clear site data on sign-out.</li>
+    </ul>
+    <p>
+      That is why <strong>Download all drafts as a file</strong> exists. The downloaded file is the
+      only durable backup, and it lives wherever you save it.
+    </p>
 
-      <h2>What the tool never does</h2>
-      <ul>
-        <li>Send your text to a server. There is none.</li>
-        <li>Use cookies to recognise you.</li>
-        <li>Load fonts, scripts or images from another domain.</li>
-        <li>Measure your behaviour or send error reports.</li>
-        <li>Use artificial intelligence or translation services.</li>
-      </ul>
-      <p>
-        The site sets a Content Security Policy that permits connections to the site itself only,
-        and the automated test fails on so much as one network request to another domain during a
-        full paste-edit-export cycle.
-      </p>
+    <h2>What the tool never does</h2>
+    <ul>
+      <li>Send your text to a server. There is none.</li>
+      <li>Use cookies to recognise you.</li>
+      <li>Load fonts, scripts or images from another domain.</li>
+      <li>Measure your behaviour or send error reports.</li>
+      <li>Use artificial intelligence or translation services.</li>
+    </ul>
+    <p>
+      The site sets a Content Security Policy that permits connections to the site itself only, and
+      the automated test fails on so much as one network request to another domain during a full
+      paste-edit-export cycle.
+    </p>
 
-      <h2>Questions</h2>
-      <p>
-        Contact the branch office. The tool was built for Ishøj Lærerkreds and is not operated by a
-        third party.
-      </p>
-    </Fragment>
-  )
-}
+    <h2>Questions</h2>
+    <p>
+      Contact the branch office. The tool was built for Ishøj Lærerkreds and is not operated by a
+      third party.
+    </p>
+  </Fragment>
+)}

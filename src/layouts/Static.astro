@@ -40,13 +40,13 @@ const { lang, page, title, lead, description } = Astro.props;
   <SiteFooter lang={lang} />
 
   <script is:inline define:vars={{ lang }}>
-    // Landing here by following the language link is an explicit choice, so the
-    // preference follows the URL. Guarded by the prefix, never by navigator.language.
-    // Raw string, matching how @nanostores/persistent stores a plain atom.
-    try {
-      localStorage.setItem("nl.uiLang", lang);
-    } catch {
-      /* Storage disabled or full: the URL still decided this page's language. */
-    }
+  // Landing here by following the language link is an explicit choice, so the
+  // preference follows the URL. Guarded by the prefix, never by navigator.language.
+  // Raw string, matching how @nanostores/persistent stores a plain atom.
+  try {
+    localStorage.setItem("nl.uiLang", lang);
+  } catch {
+    /* Storage disabled or full: the URL still decided this page's language. */
+  }
   </script>
 </Base>

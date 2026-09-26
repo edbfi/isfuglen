@@ -515,27 +515,17 @@ import hero from '../assets/hero.jpg';
 
 ## Biome: formatting and linting
 
-Biome is the formatter and linter for JS/TS/JSON/CSS. Its Vue/Svelte/Astro support is opt-in and still experimental — per the Biome v2.3 release, "this feature is marked as experimental… To enable the feature, you'll have to opt in the new `html.experimentalFullSupportEnabled` option." Turn off the handful of rules that false-positive across the embedded-language boundary in `.svelte`/`.astro` files. Since v2.4 Biome handles most Svelte 5 control-flow syntax (`{#if}{/if}`), but per its docs "newer features, rare syntax, or edge cases might not be covered yet." Biome does **not** type-check, so it complements — never replaces — `astro check` and `svelte-check`.
+Biome is the formatter and linter for JS/TS/JSON/CSS. Its Vue/Svelte/Astro support is opt-in and still experimental — per the Biome v2.3 release, "this feature is marked as experimental… To enable the feature, you'll have to opt in the new `html.experimentalFullSupportEnabled` option." Full support recognizes template references; keep unused-code rules enabled. Add only narrowly scoped exceptions for reproduced false positives, and validate formatter changes with both framework checkers. Since v2.4 Biome handles most Svelte 5 control-flow syntax (`{#if}{/if}`), but per its docs "newer features, rare syntax, or edge cases might not be covered yet." Biome does **not** type-check, so it complements — never replaces — `astro check` and `svelte-check`.
 
 ```jsonc
 // biome.json
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
-  "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2 },
-  "linter": { "enabled": true, "rules": { "recommended": true } },
-  "html": { "experimentalFullSupportEnabled": true },
-  "overrides": [
-    {
-      "includes": ["**/*.svelte", "**/*.astro"],
-      "linter": {
-        "rules": {
-          "style": { "useConst": "off", "useImportType": "off" },
-          "correctness": { "noUnusedVariables": "off", "noUnusedImports": "off" }
-        }
-      }
-    }
-  ]
+  "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2, "lineWidth": 100 },
+  "linter": { "enabled": true, "rules": { "preset": "recommended" } },
+  "assist": { "enabled": true, "actions": { "source": { "preset": "recommended" } } },
+  "html": { "experimentalFullSupportEnabled": true, "formatter": { "enabled": true } }
 }
 ```
 

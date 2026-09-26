@@ -75,8 +75,11 @@ Rebuilt by `bun run build:assets`:
   not validate. A change to the persisted shape needs `SCHEMA_VERSION` bumped in
   `src/lib/model/types.ts` and a step in `steps` in `src/lib/model/migrate.ts`, keyed by the
   version it migrates *from*.
-- Biome lints `.astro`/`.svelte` script blocks but does not format them (see `biome.json`
-  overrides), and it ignores Markdown. Format template markup by hand.
+- Biome uses experimental full Svelte/Astro formatting and linting, including template markup.
+  It still ignores Markdown; `astro check` and both Svelte checkers remain required.
+- The `useSemanticElements` exception is limited to four named language/toolbar components:
+  their `role="group"` containers group controls without introducing a form fieldset.
+  Keep these explicit compatibility exceptions narrow when upgrading Biome.
 
 ## Where state lives
 
