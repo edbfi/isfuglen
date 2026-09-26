@@ -1,276 +1,74 @@
-# Configuration file for `prek`, a git hook framework written in Rust.
-# See https://prek.j178.dev for more information.
+# prek.toml — pre-commit hooks configuration
+# Docs: https://prek.j178.dev/configuration/
 #:schema https://www.schemastore.org/prek.json
-#
-# Tuned for this project's stack: Bun + Astro 7 + Svelte 5 (runes) + UnoCSS + TypeScript.
-# Binding conventions live in `.agents/rules/bun-unocss-dev-pro.md`; several hooks below
-# exist purely to make the anti-patterns listed there unpushable.
-#
-#   prek install                 # wires the pre-commit, commit-msg and pre-push shims
-#   prek run --all-files         # everything that runs on commit
-#   prek run --all-files --group ci
-#   prek run --all-files --group slow
 
 minimum_prek_version = "0.4.0"
-
-# Without this, `prek install` only installs the pre-commit shim and every
-# commit-msg / pre-push hook below would be configured but never fire.
 default_install_hook_types = ["pre-commit", "commit-msg", "pre-push"]
+default_stages = ["pre-commit", "manual"]
 
-# Generated, vendored or machine-owned paths. Never ours to lint or rewrite.
-exclude = { glob = [
-  "dist/**",
-  "node_modules/**",
-  ".astro/**",
-  ".gjc/**",
-  "bun.lock",
-] }
-
-# Deliberately no `[priorities]` table. Several hooks here rewrite files
-# (trailing-whitespace, end-of-file-fixer, Biome), and prek runs hooks
-# that share a priority concurrently — with undefined results when they touch the
-# same paths, and no way to attribute the failure. Omitting `priority` makes prek
-# assign implicit sequential values from file order, which is exactly the order
-# below: normalise → guard → format → type-check → test.
-
-# ---------------------------------------------------------------------------
-# File hygiene — prek's built-in Rust hooks. Offline, no toolchain, instant.
-# ---------------------------------------------------------------------------
-
+# Keep supplied brand assets and reference rules unchanged by whitespace fixers.
+# Builtin hooks — fast, offline, Rust-native
 [[repos]]
 repo = "builtin"
-
-# The three whitespace fixers below rewrite files, so they share one exclude set:
-# externally-authored normative text (LICENSE, the binding rules doc) and the
-# supplied brand assets, which the brief says must not be modified. Verified:
-# without the `.agents` entry, end-of-file-fixer rewrites the rules document.
-[[repos.hooks]]
-id = "trailing-whitespace"
-# Markdown hard line breaks are two trailing spaces; keep them in docs.
-args = ["--markdown-linebreak-ext=md"]
-exclude = { glob = ["LICENSE", ".agents/**", "public/brand/**", "src/assets/brand/**"] }
-
-[[repos.hooks]]
-id = "end-of-file-fixer"
-exclude = { glob = ["LICENSE", ".agents/**", "public/brand/**", "src/assets/brand/**"] }
-
-[[repos.hooks]]
-id = "mixed-line-ending"
-args = ["--fix=lf"]
-exclude = { glob = ["LICENSE", ".agents/**", "public/brand/**", "src/assets/brand/**"] }
-
-# A UTF-8 BOM at the head of a source file corrupts æ/ø/å handling in exactly the
-# places this project cares about: parser fixtures, message catalogs, clipboard
-# and DOCX output. Strip it before it ever lands.
-[[repos.hooks]]
-id = "fix-byte-order-marker"
-
-[[repos.hooks]]
-id = "check-merge-conflict"
-
-[[repos.hooks]]
-id = "check-case-conflict"
-
-[[repos.hooks]]
-id = "check-illegal-windows-names"
-
-[[repos.hooks]]
-id = "forbid-new-submodules"
-
-[[repos.hooks]]
-id = "check-added-large-files"
-# Brand assets and any committed font subset must stay well under this.
-# If the supplied logo PNG exceeds it, downscale it — do not raise the limit.
-args = ["--maxkb=500"]
-
-[[repos.hooks]]
-id = "detect-private-key"
-
-[[repos.hooks]]
-id = "check-json"
-# tsconfig.json and VS Code settings are JSONC — comments are legal there.
-exclude = { glob = ["tsconfig.json", ".vscode/**"] }
-
-# The JSONC files above still need validating. `check-json5` defaults to json5-tagged
-# files only, and a `.json` extension is never tagged json5 — so widen `types` back
-# to every file and let the glob do the selecting. Verified: without `types`, this
-# hook silently matches nothing.
-[[repos.hooks]]
-id = "check-json5"
-types = ["file"]
-files = { glob = ["tsconfig.json", ".vscode/*.json"] }
-
-[[repos.hooks]]
-id = "check-toml"
-
-[[repos.hooks]]
-id = "check-yaml"
-
-# The repository's stated git workflow: branch, then PR. Never straight to main.
-[[repos.hooks]]
-id = "no-commit-to-branch"
-args = ["--branch", "main"]
-
-# ---------------------------------------------------------------------------
-# Stack guards — the anti-patterns from the binding rules, enforced.
-# `deny-pattern` uses Rust `regex` syntax (no lookaround), so every pattern
-# below is written to be literal and anchored rather than clever.
-# ---------------------------------------------------------------------------
-
-[[repos]]
-repo = "builtin"
-
-# Bun is the only runtime, installer and script runner in this stack.
-# Scoped to executable surfaces — prose in docs may legitimately name npm.
-[[repos.hooks]]
-id = "deny-pattern"
-alias = "no-npm"
-name = "Bun only (no npm / pnpm / yarn / npx)"
-args = ['(^|[^=])\b(npm|pnpm|yarn|npx)\s']
-files = '^(package\.json|bunfig\.toml|Dockerfile|\.github/workflows/.*\.ya?ml|scripts/.*\.(sh|ts|mjs))$'
-
-# Svelte 5 runes-only. `export let`, `on:click` and `$:` are Svelte 4 and either
-# error outright or silently misbehave here.
-[[repos.hooks]]
-id = "deny-pattern"
-alias = "no-svelte4"
-name = "Svelte 5 runes only (no export let / on: / $:)"
-args = ['^\s*export\s+let\s', '\son:[a-zA-Z]+=', '^\s*\$:\s']
-files = '\.svelte$'
-
-# UnoCSS: presetWind4 is current; presetUno and presetWind3 are superseded.
-[[repos.hooks]]
-id = "deny-pattern"
-alias = "no-stale-uno-preset"
-name = "UnoCSS presetWind4 only"
-args = ['presetUno', 'presetWind3']
-files = '^uno\.config\.ts$'
-
-# `Astro.glob()` is removed in Astro 7. Use a Content Layer loader or import.meta.glob.
-[[repos.hooks]]
-id = "deny-pattern"
-alias = "no-astro-glob"
-name = "No removed Astro.glob()"
-args = ['Astro\.glob\(']
-files = '\.(astro|ts)$'
-
-# `client:only` without a framework value ships no runtime and renders nothing.
-# Written as "client:only followed by a non-`=` character" because deny-pattern
-# uses the Rust regex engine, which has no lookahead.
-[[repos.hooks]]
-id = "deny-pattern"
-alias = "client-only-needs-framework"
-name = 'client:only must name its framework'
-args = ['client:only[\s/>]']
-files = '\.astro$'
-
-# UnoCSS generates only the classes it can find by scanning source, so a class
-# name assembled at runtime silently produces no CSS. Every pattern requires the
-# interpolation to be glued to a class-name character on one side or the other,
-# which catches the broken forms (`text-${c}-500`, `${c}-500`, `text-{c}-500`,
-# `{c}-500`) while allowing the safe one, where whole literal class strings are
-# interpolated (`${base} ${extra}`). Glue on the left and glue on the right get a
-# pattern each because the Rust regex engine has no lookaround — neither side can
-# be written as a negative lookahead on the other.
-[[repos.hooks]]
-id = "deny-pattern"
-alias = "no-dynamic-classes"
-name = "No dynamically constructed UnoCSS class names"
-args = [
-  'class=\{`[^`]*[-a-zA-Z0-9]\$\{',
-  'class=\{`[^`]*\$\{[^`}]*\}[-a-zA-Z0-9]',
-  'class="[^"]*[-a-zA-Z0-9]\{',
-  'class="[^"]*\{[^"}]*\}[-a-zA-Z0-9]',
+hooks = [
+  { id = "trailing-whitespace", args = ["--markdown-linebreak-ext=md"], exclude = { glob = ["LICENSE", ".agents/**", "public/brand/**", "src/assets/brand/**", "dist/**", "node_modules/**", ".astro/**", ".gjc/**", "bun.lock"] } },
+  { id = "end-of-file-fixer", exclude = { glob = ["LICENSE", ".agents/**", "public/brand/**", "src/assets/brand/**", "dist/**", "node_modules/**", ".astro/**", ".gjc/**", "bun.lock"] } },
+  { id = "mixed-line-ending", args = ["--fix=lf"], exclude = { glob = ["LICENSE", ".agents/**", "public/brand/**", "src/assets/brand/**", "dist/**", "node_modules/**", ".astro/**", ".gjc/**", "bun.lock"] } },
+  { id = "check-merge-conflict" },
+  { id = "check-case-conflict" },
+  { id = "check-added-large-files", args = ["--maxkb=512"] },
+  { id = "detect-private-key" },
+  { id = "check-json", exclude = { glob = ["tsconfig.json", ".vscode/**"] } },
+  { id = "check-toml" },
+  { id = "check-yaml" },
+  { id = "no-commit-to-branch", args = ["--branch", "main"] },
 ]
-files = '\.(astro|svelte)$'
 
-# ---------------------------------------------------------------------------
-# Commit messages — Conventional Commits, per the project's git workflow.
-# ---------------------------------------------------------------------------
-
+# Conventional Commits — enforce Conventional Commit message format
 [[repos]]
 repo = "https://github.com/compilerla/conventional-pre-commit"
 rev = "v4.4.0"
-hooks = [{ id = "conventional-pre-commit", stages = ["commit-msg"] }]
+hooks = [
+  { id = "conventional-pre-commit", stages = ["commit-msg"] },
+]
 
-# ---------------------------------------------------------------------------
-# Secret / credential leak guard.
-# This app ships no backend and must never carry a key: parser fixtures contain
-# real union meeting notes, and a future AI-assist path is bring-your-own-key.
-# ---------------------------------------------------------------------------
-
+# Secret / credential leak guard — fixtures and dotfiles must never carry tokens
 [[repos]]
 repo = "https://github.com/gitleaks/gitleaks"
 rev = "v8.30.1"
-hooks = [{ id = "gitleaks", groups = ["ci"] }]
+hooks = [
+  { id = "gitleaks", groups = ["ci"] },
+]
 
-# ---------------------------------------------------------------------------
-# Local toolchain hooks. All run under Bun.
-# ---------------------------------------------------------------------------
+# Project-specific builtin checks — preserve syntax and stack conventions
+[[repos]]
+repo = "builtin"
+hooks = [
+  { id = "fix-byte-order-marker" },
+  { id = "check-illegal-windows-names" },
+  { id = "forbid-new-submodules" },
+  { id = "check-json5", types = ["file"], files = { glob = ["tsconfig.json", ".vscode/*.json"] } },
+  { id = "deny-pattern", alias = "no-npm", name = "Bun only (no npm / pnpm / yarn / npx)", args = ["(^|[^=])\\b(npm|pnpm|yarn|npx)\\s"], files = "^(package\\.json|bunfig\\.toml|Dockerfile|\\.github/workflows/.*\\.ya?ml|scripts/.*\\.(sh|ts|mjs))$" },
+  { id = "deny-pattern", alias = "no-svelte4", name = "Svelte 5 runes only (no export let / on: / $:)", args = ["^\\s*export\\s+let\\s", "\\son:[a-zA-Z]+=", "^\\s*\\$:\\s"], files = "\\.svelte$" },
+  { id = "deny-pattern", alias = "no-stale-uno-preset", name = "UnoCSS presetWind4 only", args = ["presetUno", "presetWind3"], files = "^uno\\.config\\.ts$" },
+  { id = "deny-pattern", alias = "no-astro-glob", name = "No removed Astro.glob()", args = ["Astro\\.glob\\("], files = "\\.(astro|ts)$" },
+  { id = "deny-pattern", alias = "client-only-needs-framework", name = "client:only must name its framework", args = ["client:only[\\s/>]"], files = "\\.astro$" },
+  { id = "deny-pattern", alias = "no-dynamic-classes", name = "No dynamically constructed UnoCSS class names", args = ["class=\\{`[^`]*[-a-zA-Z0-9]\\$\\{", "class=\\{`[^`]*\\$\\{[^`}]*\\}[-a-zA-Z0-9]", "class=\"[^\"]*[-a-zA-Z0-9]\\{", "class=\"[^\"]*\\{[^\"}]*\\}[-a-zA-Z0-9]"], files = "\\.(astro|svelte)$" },
+]
 
+# Local hooks — project-specific quality gates
 [[repos]]
 repo = "local"
+hooks = [
+  { id = "biome", name = "Format and lint with Biome", entry = "bunx --bun biome check --write --files-ignore-unknown=true --no-errors-on-unmatched", language = "system", groups = ["ci"], types = ["text"], files = "\\.(js|mjs|cjs|ts|jsx|tsx|json|jsonc|css|astro|svelte)$" },
+  { id = "astro-check", name = "Type check Astro and Svelte", entry = "bun run check", language = "system", pass_filenames = false, stages = ["pre-push"], groups = ["ci", "slow"] },
+  { id = "tests", name = "Run test suite", entry = "bun test", language = "system", pass_filenames = false, stages = ["pre-push"], groups = ["ci", "slow"] },
+  { id = "build", name = "Build the static site", entry = "bun run build", language = "system", pass_filenames = false, always_run = true, stages = ["manual"], groups = ["ci", "slow"] },
+]
 
-# Biome is the only formatter and linter here. In .astro and .svelte it lints
-# the frontmatter and the <script>/<style> blocks and sorts their imports, but
-# it does not format them: Biome 2.5 does not parse the template markup, and its
-# formatter strips the indentation off the whole <script> block. See the
-# override in biome.json. Markdown is not covered at all — Biome 2.5 has no
-# markdown support.
-[[repos.hooks]]
-id = "biome"
-name = "Format and lint with Biome"
-entry = "bunx --bun biome check --write --no-errors-on-unmatched"
-language = "system"
-types_or = ["ts", "tsx", "javascript", "jsx", "json", "css", "astro", "svelte"]
-groups = ["ci"]
-
-# `astro check` is the only thing that type-checks .astro files; plain tsc ignores
-# them entirely. svelte-check covers the islands. Both are slow — pre-push only.
-[[repos.hooks]]
-id = "astro-check"
-name = "Type check Astro and Svelte"
-entry = "bun run check"
-language = "system"
-pass_filenames = false
-stages = ["pre-push"]
-groups = ["ci", "slow"]
-
-[[repos.hooks]]
-id = "tests"
-name = "Run test suite"
-entry = "bun test"
-language = "system"
-pass_filenames = false
-stages = ["pre-push"]
-groups = ["ci", "slow"]
-
-# The static build is the only check that exercises Astro's Rust compiler over
-# the whole site — Astro 7 errors on unclosed tags instead of auto-correcting.
-# Kept out of pre-commit and pre-push; CI runs it via `--group ci`.
-[[repos.hooks]]
-id = "build"
-name = "Build the static site"
-entry = "bun run build"
-language = "system"
-pass_filenames = false
-always_run = true
-stages = ["manual"]
-groups = ["ci", "slow"]
-
-# ---------------------------------------------------------------------------
-# Keep this config itself honest. Manual/CI only — noise on every commit.
-#
-# `check-hooks-apply` is deliberately absent. It fails any hook that matches no
-# file in the current tree, which is precisely how the insurance hooks above are
-# supposed to sit: `forbid-new-submodules` matches nothing until someone adds a
-# submodule, and `check-illegal-windows-names` nothing until a file is named in
-# a way that breaks a Windows checkout. Running it in CI (`--hook-stage manual`,
-# see .github/workflows/code-quality.yml) therefore fails the quality gate for
-# the healthy state, and the only ways to satisfy it are to delete both guards
-# or to skip it — so it is not configured.
-# ---------------------------------------------------------------------------
-
+# Config audit — manual only
 [[repos]]
 repo = "meta"
-hooks = [{ id = "check-useless-excludes", stages = ["manual"], groups = ["ci"] }]
+hooks = [
+  { id = "check-useless-excludes", stages = ["manual"], groups = ["ci"] },
+]
