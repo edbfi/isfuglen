@@ -57,9 +57,9 @@ function setTask(index: number, value: string): void {
         type="button"
         class="btn-ghost text-xs"
         onclick={() => {
-  block.items.splice(index, 1);
-  onchange();
-}}
+          block.items.splice(index, 1);
+          onchange();
+        }}
       >
         {t("actions.remove")}
       </button>
@@ -71,9 +71,9 @@ function setTask(index: number, value: string): void {
       type="button"
       class="btn-secondary text-sm"
       onclick={() => {
-  block.items.push(actionItem(""));
-  onchange();
-}}
+        block.items.push(actionItem(""));
+        onchange();
+      }}
     >
       + {t("actions.add")}
     </button>

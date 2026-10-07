@@ -41,8 +41,8 @@ const introText = $derived(doc.intro ? inlineToPlain(doc.intro) : "");
       aria-expanded={expanded}
       aria-controls="doc-card-fields"
       onclick={() => {
-  expanded = !expanded;
-}}
+        expanded = !expanded;
+      }}
     >
       {expanded ? t("doc.collapse") : t("doc.expand")}
     </button>
@@ -87,10 +87,10 @@ const introText = $derived(doc.intro ? inlineToPlain(doc.intro) : "");
         value={introText}
         use:autosize={{ min: 5, max: 16, value: () => introText }}
         oninput={(event) => {
-  const value = event.currentTarget.value;
-  doc.intro = value.length > 0 ? parseInline(value) : rich("");
-  onchange();
-}}
+          const value = event.currentTarget.value;
+          doc.intro = value.length > 0 ? parseInline(value) : rich("");
+          onchange();
+        }}
       ></textarea>
     </div>
 

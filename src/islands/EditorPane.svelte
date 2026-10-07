@@ -77,18 +77,18 @@ function move(id: string, delta: number): void {
       {onchange}
       onmove={(delta) => move(section.id, delta)}
       onremove={() => {
-  store.removeSection(section.id);
-  onchange();
-}}
+        store.removeSection(section.id);
+        onchange();
+      }}
       onheading={(value) => {
-  store.setSectionHeading(section.id, value);
-  onchange();
-}}
+        store.setSectionHeading(section.id, value);
+        onchange();
+      }}
       onbodychange={(start, count, blocks) => replaceBody(section.id, start, count, blocks)}
       onacknowledge={(blockId) => {
-  store.clearConfidence(blockId);
-  onchange();
-}}
+        store.clearConfidence(blockId);
+        onchange();
+      }}
       onmergeup={() => mergeUp(section.id)}
       onheadingtotext={() => headingToText(section.id)}
       onformatpaste={(raw) => onformatpaste(section.id, raw)}

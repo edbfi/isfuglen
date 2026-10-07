@@ -23,10 +23,10 @@ const signature = $derived((block.signature ?? []).join("\n"));
       class="field-input"
       value={inlineToPlain(block.content)}
       oninput={(event) => {
-  const value = event.currentTarget.value;
-  block.content = value.length > 0 ? parseInline(value) : rich("");
-  onchange();
-}}
+        const value = event.currentTarget.value;
+        block.content = value.length > 0 ? parseInline(value) : rich("");
+        onchange();
+      }}
     >
   </div>
   <div class="flex flex-col gap-1">
@@ -38,9 +38,9 @@ const signature = $derived((block.signature ?? []).join("\n"));
       aria-describedby="closing-signature-hint-{block.id}"
       value={signature}
       oninput={(event) => {
-  block.signature = event.currentTarget.value.split("\n");
-  onchange();
-}}
+        block.signature = event.currentTarget.value.split("\n");
+        onchange();
+      }}
     ></textarea>
     <p id="closing-signature-hint-{block.id}" class="text-xs text-muted">
       {t("closing.signatureHint")}

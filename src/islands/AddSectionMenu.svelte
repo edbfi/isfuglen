@@ -37,8 +37,8 @@ const TYPE_KEYS: Record<SectionTypeKey, MessageKey> = {
   {/snippet}
 
   {#snippet children({
-  close,
-})}
+    close,
+  })}
     {#each SECTION_TYPES as type (type)}
       <button
         type="button"
@@ -46,9 +46,9 @@ const TYPE_KEYS: Record<SectionTypeKey, MessageKey> = {
         tabindex="-1"
         class="block w-full px-4 py-2 text-left text-sm text-ink hover:bg-surface-sunken focus-ring"
         onclick={() => {
-  close();
-  onadd(type);
-}}
+          close();
+          onadd(type);
+        }}
       >
         {t(TYPE_KEYS[type])}
       </button>

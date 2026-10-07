@@ -41,9 +41,9 @@ $effect(() => {
   aria-label={title}
   class="w-[min(34rem,calc(100vw-2rem))] rounded-md border border-hairline bg-white p-0 text-ink shadow-chrome backdrop:bg-ink/30"
   oncancel={(event) => {
-  event.preventDefault();
-  onclose();
-}}
+    event.preventDefault();
+    onclose();
+  }}
   onclose={() => open && onclose()}
 >
   <div class="flex items-start gap-4 border-b border-hairline px-5 py-4">

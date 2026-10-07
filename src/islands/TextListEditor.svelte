@@ -37,26 +37,26 @@ let { items, itemLabel, addLabel, removeLabel, idPrefix, onchange }: Props = $pr
           class="field-input"
           value={inlineToPlain(item)}
           oninput={(event) => {
-  const value = event.currentTarget.value;
-  items[index] = value.length > 0 ? parseInline(value) : rich("");
-  onchange();
-}}
+            const value = event.currentTarget.value;
+            items[index] = value.length > 0 ? parseInline(value) : rich("");
+            onchange();
+          }}
           onkeydown={(event) => {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    items.splice(index + 1, 0, rich(""));
-    onchange();
-  }
-}}
+            if (event.key === "Enter") {
+              event.preventDefault();
+              items.splice(index + 1, 0, rich(""));
+              onchange();
+            }
+          }}
         >
       </div>
       <button
         type="button"
         class="btn-ghost text-xs"
         onclick={() => {
-  items.splice(index, 1);
-  onchange();
-}}
+          items.splice(index, 1);
+          onchange();
+        }}
       >
         {removeLabel}
       </button>
@@ -68,9 +68,9 @@ let { items, itemLabel, addLabel, removeLabel, idPrefix, onchange }: Props = $pr
       type="button"
       class="btn-secondary text-sm"
       onclick={() => {
-  items.push(rich(""));
-  onchange();
-}}
+        items.push(rich(""));
+        onchange();
+      }}
     >
       + {addLabel}
     </button>

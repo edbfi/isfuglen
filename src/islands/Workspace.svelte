@@ -270,8 +270,8 @@ const tabs = $derived([
     onlang={(next) => uiLang.set(next)}
     announce={(message) => status.announce(message)}
     ondrafts={() => {
-  draftsOpen = true;
-}}
+      draftsOpen = true;
+    }}
     onclear={clearAll}
   />
 
@@ -284,9 +284,9 @@ const tabs = $derived([
         type="button"
         class="btn-ghost text-xs"
         onclick={() => {
-  evictionNotice = false;
-  updateSettings({ dismissedEvictionNotice: true });
-}}
+          evictionNotice = false;
+          updateSettings({ dismissedEvictionNotice: true });
+        }}
       >
         {t("storage.evictionDismiss")}
       </button>
@@ -310,8 +310,8 @@ const tabs = $derived([
         report={store.report}
         onwalk={selectBlock}
         ondismiss={() => {
-  store.reviewDismissed = true;
-}}
+          store.reviewDismissed = true;
+        }}
       />
     {/if}
 
@@ -328,14 +328,14 @@ const tabs = $derived([
               <div class="ml-auto w-56">
                 <Tabs
                   tabs={[
-  { id: "edit", label: t("workspace.edit") },
-  { id: "raw", label: t("workspace.raw") },
-]}
+                    { id: "edit", label: t("workspace.edit") },
+                    { id: "raw", label: t("workspace.raw") },
+                  ]}
                   selected={editorView}
                   label={t("workspace.editorPane")}
                   onselect={(id) => {
-  editorView = id as EditorView;
-}}
+                    editorView = id as EditorView;
+                  }}
                 />
               </div>
             </div>
@@ -366,8 +366,8 @@ const tabs = $derived([
             selected={mobilePane}
             label={t("workspace.editorPane")}
             onselect={(id) => {
-  mobilePane = id as MobilePane;
-}}
+              mobilePane = id as MobilePane;
+            }}
           />
         </div>
 
@@ -400,8 +400,8 @@ const tabs = $derived([
       announce={(message) => status.announce(message)}
       onerror={(message) => status.error(message)}
       onsavedraft={() => {
-  draftsOpen = true;
-}}
+        draftsOpen = true;
+      }}
     />
   {/if}
 </div>
@@ -415,6 +415,6 @@ const tabs = $derived([
   onerror={(message) => status.error(message)}
   onopen={openDraft}
   onclose={() => {
-  draftsOpen = false;
-}}
+    draftsOpen = false;
+  }}
 />
