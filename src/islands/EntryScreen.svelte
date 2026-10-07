@@ -99,9 +99,9 @@ function onkeydown(event: KeyboardEvent): void {
       <h2 class="text-sm font-semibold text-brand">{t("entry.resumeHeading")}</h2>
       <p class="mt-1 text-sm text-muted">
         {t("entry.resumeMeta", {
-  name: resumable.name,
-  when: formatSavedAt(resumable.updatedAt, lang),
-})}
+          name: resumable.name,
+          when: formatSavedAt(resumable.updatedAt, lang),
+        })}
       </p>
       <div class="mt-3 flex gap-2">
         <button type="button" class="btn-secondary" onclick={onresume}>

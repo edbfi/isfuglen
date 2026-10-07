@@ -22,10 +22,10 @@ let { block, t, onchange }: Props = $props();
       rows="3"
       value={inlineToPlain(block.content)}
       oninput={(event) => {
-  const value = event.currentTarget.value;
-  block.content = value.length > 0 ? parseInline(value) : rich("");
-  onchange();
-}}
+        const value = event.currentTarget.value;
+        block.content = value.length > 0 ? parseInline(value) : rich("");
+        onchange();
+      }}
     ></textarea>
   </div>
   <div class="flex flex-col gap-1">

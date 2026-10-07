@@ -160,12 +160,12 @@ function applyLink(): void {
         aria-invalid={linkError.length > 0}
         placeholder="https://"
         onkeydown={(event) => {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    applyLink();
-  }
-  if (event.key === "Escape") linkOpen = false;
-}}
+          if (event.key === "Enter") {
+            event.preventDefault();
+            applyLink();
+          }
+          if (event.key === "Escape") linkOpen = false;
+        }}
       >
       {#if linkError}
         <p id="link-error" class="text-xs font-medium text-action-bar">{linkError}</p>
@@ -176,9 +176,9 @@ function applyLink(): void {
       type="button"
       class="btn-ghost"
       onclick={() => {
-  editor.chain().focus().unsetLink().run();
-  linkOpen = false;
-}}
+        editor.chain().focus().unsetLink().run();
+        linkOpen = false;
+      }}
     >
       {t("editor.linkRemove")}
     </button>

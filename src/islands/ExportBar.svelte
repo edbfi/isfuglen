@@ -159,9 +159,9 @@ async function copy(): Promise<void> {
   title={t("export.copyDialog")}
   closeLabel={t("a11y.dialogClose")}
   onclose={() => {
-  copyDialogOpen = false;
-  manualHtml = "";
-}}
+    copyDialogOpen = false;
+    manualHtml = "";
+  }}
 >
   {#if manualHtml}
     <p class="mb-2 text-sm font-medium text-ink">{t("export.copyManual")}</p>
@@ -180,9 +180,9 @@ async function copy(): Promise<void> {
       type="button"
       class="btn-primary"
       onclick={() => {
-  copyDialogOpen = false;
-  manualHtml = "";
-}}
+        copyDialogOpen = false;
+        manualHtml = "";
+      }}
     >
       {t("export.close")}
     </button>

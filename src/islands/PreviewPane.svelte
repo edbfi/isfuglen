@@ -160,8 +160,8 @@ function onscroll(event: Event): void {
         {t}
         value={Math.round(scale * 100)}
         onzoom={(delta) => {
-  zoomStep = delta === 0 ? 0 : zoomStep + delta;
-}}
+          zoomStep = delta === 0 ? 0 : zoomStep + delta;
+        }}
       />
       <PageIndicator {t} page={currentPage} pages={pageCount} />
     </div>

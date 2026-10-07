@@ -38,9 +38,9 @@ const value = $derived(draft ?? serialised);
       type="button"
       class="btn-primary text-sm"
       onclick={() => {
-  onapply(value);
-  draft = null;
-}}
+        onapply(value);
+        draft = null;
+      }}
     >
       {t("raw.apply")}
     </button>
@@ -53,7 +53,7 @@ const value = $derived(draft ?? serialised);
     spellcheck="false"
     {value}
     oninput={(event) => {
-  draft = event.currentTarget.value;
-}}
+      draft = event.currentTarget.value;
+    }}
   ></textarea>
 </div>

@@ -213,10 +213,10 @@ $effect(() => {
         type="button"
         class="btn-secondary text-xs"
         onclick={() => {
-  const raw = pendingPaste;
-  pendingPaste = null;
-  if (raw) onformat?.(raw);
-}}
+          const raw = pendingPaste;
+          pendingPaste = null;
+          if (raw) onformat?.(raw);
+        }}
       >
         {t("paste.asSections")}
       </button>
@@ -224,8 +224,8 @@ $effect(() => {
         type="button"
         class="btn-ghost text-xs"
         onclick={() => {
-  pendingPaste = null;
-}}
+          pendingPaste = null;
+        }}
       >
         {t("paste.keepPlain")}
       </button>
@@ -247,15 +247,15 @@ $effect(() => {
       class="nl-editor w-full rounded-md border border-hairline bg-white px-3 py-2 text-left focus-ring"
       aria-label={t("section.body")}
       onfocusin={() => {
-  mounted = true;
-}}
+        mounted = true;
+      }}
       onpointerdown={(event) => {
-  const box = event.currentTarget.getBoundingClientRect();
-  entryPoint = { left: event.clientX - box.left, top: event.clientY - box.top };
-}}
+        const box = event.currentTarget.getBoundingClientRect();
+        entryPoint = { left: event.clientX - box.left, top: event.clientY - box.top };
+      }}
       onclick={() => {
-  mounted = true;
-}}
+        mounted = true;
+      }}
     >
       {@html staticHtml}
     </button>

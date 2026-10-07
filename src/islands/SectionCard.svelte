@@ -195,8 +195,8 @@ function acknowledge(): void {
         {/snippet}
 
         {#snippet children({
-  close,
-})}
+          close,
+        })}
           {#if section.heading}
             <button
               type="button"
@@ -204,9 +204,9 @@ function acknowledge(): void {
               tabindex="-1"
               class="block w-full px-4 py-2 text-left text-sm text-ink hover:bg-surface-sunken focus-ring"
               onclick={() => {
-  close();
-  onheadingtotext();
-}}
+                close();
+                onheadingtotext();
+              }}
             >
               {t("section.headingToText")}
             </button>
@@ -223,9 +223,9 @@ function acknowledge(): void {
               tabindex="-1"
               class="block w-full px-4 py-2 text-left text-sm text-ink hover:bg-surface-sunken focus-ring"
               onclick={() => {
-  close();
-  onmergeup();
-}}
+                close();
+                onmergeup();
+              }}
             >
               {t("section.mergeUp")}
             </button>
@@ -236,9 +236,9 @@ function acknowledge(): void {
             tabindex="-1"
             class="block w-full border-t border-hairline px-4 py-2 text-left text-sm text-ink hover:bg-surface-sunken focus-ring"
             onclick={() => {
-  close();
-  if (confirm(t("section.removeConfirm", { name }))) onremove();
-}}
+              close();
+              if (confirm(t("section.removeConfirm", { name }))) onremove();
+            }}
           >
             {t("section.remove")}
           </button>

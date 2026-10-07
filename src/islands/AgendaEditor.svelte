@@ -58,9 +58,9 @@ let { block, t, onchange }: Props = $props();
         type="button"
         class="btn-ghost text-xs"
         onclick={() => {
-  block.items.splice(index, 1);
-  onchange();
-}}
+          block.items.splice(index, 1);
+          onchange();
+        }}
       >
         {t("agenda.remove")}
       </button>
@@ -72,9 +72,9 @@ let { block, t, onchange }: Props = $props();
       type="button"
       class="btn-secondary text-sm"
       onclick={() => {
-  block.items.push(agendaItem(""));
-  onchange();
-}}
+        block.items.push(agendaItem(""));
+        onchange();
+      }}
     >
       + {t("agenda.add")}
     </button>

@@ -68,9 +68,9 @@ let { block, t, onchange }: Props = $props();
           type="button"
           class="btn-ghost text-xs"
           onclick={() => {
-  block.entries.splice(index, 1);
-  onchange();
-}}
+            block.entries.splice(index, 1);
+            onchange();
+          }}
         >
           {t("contact.remove")}
         </button>
@@ -83,9 +83,9 @@ let { block, t, onchange }: Props = $props();
       type="button"
       class="btn-secondary text-sm"
       onclick={() => {
-  block.entries.push(contactEntry({}));
-  onchange();
-}}
+        block.entries.push(contactEntry({}));
+        onchange();
+      }}
     >
       + {t("contact.add")}
     </button>

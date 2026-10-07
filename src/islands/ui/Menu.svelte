@@ -95,12 +95,12 @@ $effect(() => {
     aria-label={triggerLabel}
     title={triggerLabel}
     onclick={() => {
-  open = !open;
-  if (open) queueMicrotask(() => items()[0]?.focus());
-}}
+      open = !open;
+      if (open) queueMicrotask(() => items()[0]?.focus());
+    }}
     onkeydown={(event) => {
-  if (event.key === "Escape" && open) close();
-}}
+      if (event.key === "Escape" && open) close();
+    }}
   >
     {@render trigger()}
   </button>
@@ -111,7 +111,9 @@ $effect(() => {
       role="menu"
       tabindex="-1"
       aria-label={label}
-      class="absolute z-20 mt-1 min-w-56 rounded-md border border-hairline bg-white py-1 shadow-chrome {ALIGN[align]}"
+      class="absolute z-20 mt-1 min-w-56 rounded-md border border-hairline bg-white py-1 shadow-chrome {ALIGN[
+        align
+      ]}"
       {onkeydown}
     >
       {@render children({ close })}
