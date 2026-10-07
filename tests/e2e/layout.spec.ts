@@ -148,12 +148,13 @@ test("the preview scales to fit its pane rather than overflowing it", async ({ p
   await page.goto("/");
   await formatNotes(page);
 
-  const fits = await page.evaluate(() => {
-    const viewport = document.querySelector('[role="region"]') as HTMLElement | null;
-    const scaler = document.querySelector(".preview-scaler") as HTMLElement | null;
-    if (!viewport || !scaler) return null;
-    return scaler.getBoundingClientRect().width <= viewport.getBoundingClientRect().width + 1;
-  });
+  const fits = await page
+    .getByRole("region", { name: "Forhåndsvisning af nyhedsbrevet", exact: true })
+    .evaluate((viewport) => {
+      const scaler = viewport.querySelector(".preview-scaler");
+      if (!scaler) return null;
+      return scaler.getBoundingClientRect().width <= viewport.getBoundingClientRect().width + 1;
+    });
 
   expect(fits).toBe(true);
 });
