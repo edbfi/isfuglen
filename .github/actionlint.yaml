@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+paths:
+  .github/workflows/ci.yml:
+    ignore: ['unexpected key "queue"']

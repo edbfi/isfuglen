@@ -83,7 +83,7 @@ export default defineConfig({
   // The semantic block variants are written as full literal class strings and
   // picked with a lookup map (see src/lib/render/html.ts). Nothing in this
   // project assembles a class name at runtime — the `no-dynamic-classes` hook in
-  // prek.toml makes that unpushable. The safelist below covers the document
+  // .pre-commit-config.yaml makes that unpushable. The safelist below covers the document
   // classes that only ever appear inside rendered HTML strings, which UnoCSS's
   // scanner does see, but which are easy to miss when refactoring.
   safelist: [

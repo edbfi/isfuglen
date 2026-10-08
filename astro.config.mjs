@@ -8,8 +8,8 @@ import UnoCSS from "unocss/astro";
 // to be visible here: `output: "static"` and nothing that could weaken it.
 export default defineConfig({
   output: "static",
-  // The deployed origin (GitHub Pages, custom domain — see
-  // .github/workflows/deploy.yml). Astro only uses it to build absolute URLs;
+  // The deployed origin (GitHub Pages, custom domain — see the `deploy` job in
+  // .github/workflows/ci.yml). Astro only uses it to build absolute URLs;
   // the site itself is served from the domain root, so no `base` is needed.
   site: "https://isfugl.edb.fi",
   /**

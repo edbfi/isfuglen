@@ -14,6 +14,7 @@
     "check": "astro check && svelte-check --tsconfig ./tsconfig.json && bun run check:native",
     "test": "bun test",
     "test:e2e": "playwright test",
+    "smoke": "bun run scripts/smoke.ts",
     "format": "biome check --write .",
     "check:bundle": "bun run build:assets && astro build && bun run scripts/check-bundle.ts",
     "check:native": "bunx --bun svelte-check --tsgo --tsconfig ./tsconfig.json"
