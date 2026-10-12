@@ -36,15 +36,15 @@
     "@tiptap/extension-text": "3.31.4",
     "@tiptap/extensions": "3.31.4",
     "@tiptap/pm": "3.31.4",
-    "@unocss/astro": "66.10.5",
+    "@unocss/astro": "66.11.0",
     "astro": "7.3.8",
     "docx": "9.10.0",
     "idb-keyval": "6.3.0",
     "nanostores": "1.5.5",
     "pagedjs": "0.4.3",
     "svelte": "5.57.2",
-    "unocss": "66.10.5",
-    "zod": "4.6.5"
+    "unocss": "66.11.0",
+    "zod": "4.6.6"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
@@ -54,7 +54,7 @@
     "@fontsource/source-serif-4": "5.3.1",
     "@playwright/test": "1.64.0",
     "@resvg/resvg-js": "2.6.2",
-    "@types/bun": "1.4.2",
+    "@types/bun": "1.4.3",
     "axe-core": "4.14.0",
     "jszip": "3.10.2",
     "svelte-check": "4.7.6",
