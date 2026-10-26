@@ -194,9 +194,7 @@ function acknowledge(): void {
           ⋯
         {/snippet}
 
-        {#snippet children({
-          close,
-        })}
+        {#snippet children({ close })}
           {#if section.heading}
             <button
               type="button"
