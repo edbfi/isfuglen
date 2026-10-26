@@ -60,9 +60,10 @@ repos:
       - id: deny-pattern
         alias: no-npm
         name: Bun only (no npm / pnpm / yarn / npx)
-        # Command positions only (line start, after ; & | (, after run:, after a quote), so prose such
-        # as the CI guard's `for tool in node npm npx` doesn't match.
-        args: ['(^|[;&|(]|run:|["''`])\s*(npm|pnpm|yarn|npx)\s']
+        # Command positions only (line start, after ; & | (, after run:, after a quote, after a shell
+        # keyword or wrapper, after VAR=value), so prose such as the CI guard's
+        # `for tool in node npm npx` doesn't match.
+        args: ['(^|[;&|(]|run:|["''`]|\b(then|do|else|exec|sudo|xargs|time)\s|\b[A-Za-z_][A-Za-z0-9_]*=\S*\s)\s*(npm|pnpm|yarn|npx)\s']
         files: '^(package\.json|bunfig\.toml|Dockerfile|\.github/workflows/.*\.ya?ml|scripts/.*\.(sh|ts|mjs))$'
       - id: deny-pattern
         alias: no-svelte4
