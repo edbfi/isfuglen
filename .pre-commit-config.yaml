@@ -60,7 +60,10 @@ repos:
       - id: deny-pattern
         alias: no-npm
         name: Bun only (no npm / pnpm / yarn / npx)
-        args: ['(^|[^=])\b(npm|pnpm|yarn|npx)\s']
+        # Command positions only (line start, after ; & | (, after run:, after a quote, after a shell
+        # keyword or wrapper, after VAR=value), so prose such as the CI guard's
+        # `for tool in node npm npx` doesn't match.
+        args: ['(^|[;&|(]|run:|["''`]|\b(then|do|else|exec|sudo|xargs|time)\s|\b[A-Za-z_][A-Za-z0-9_]*=\S*\s)\s*(npm|pnpm|yarn|npx)\s']
         files: '^(package\.json|bunfig\.toml|Dockerfile|\.github/workflows/.*\.ya?ml|scripts/.*\.(sh|ts|mjs))$'
       - id: deny-pattern
         alias: no-svelte4
@@ -111,21 +114,21 @@ repos:
     hooks:
       - id: biome
         name: Format and lint with Biome
-        entry: bunx --bun biome check --write --files-ignore-unknown=true --no-errors-on-unmatched
+        entry: bunx --bun --no-install biome check --write --files-ignore-unknown=true --no-errors-on-unmatched
         language: system
         groups: [ci]
         types: [text]
         files: '\.(js|mjs|cjs|ts|jsx|tsx|json|jsonc|css|astro|svelte)$'
       - id: biome-migrate
         name: Migrate Biome configuration
-        entry: bunx --no-install biome migrate --write
+        entry: bunx --bun --no-install biome migrate --write
         language: system
         stages: [manual]
         pass_filenames: false
         always_run: true
       - id: astro-check
         name: Type check Astro and Svelte
-        entry: bun run check
+        entry: bun run --bun check
         language: system
         pass_filenames: false
         stages: [pre-push, manual]
@@ -134,14 +137,14 @@ repos:
       # so build them first.
       - id: tests
         name: Run test suite
-        entry: bash -c 'bun run build:assets && bun test'
+        entry: bash -c 'bun run --bun build:assets && bun test'
         language: system
         pass_filenames: false
         stages: [pre-push, manual]
         groups: [ci, slow]
       - id: build
         name: Build the static site
-        entry: bun run build
+        entry: bun run --bun build
         language: system
         pass_filenames: false
         always_run: true
