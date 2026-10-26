@@ -22,7 +22,7 @@ let { t, value, onzoom }: Props = $props();
   <button
     type="button"
     class="btn-ghost px-2 py-0.5 tabular-nums"
-    aria-label={t("preview.zoomReset")}
+    aria-label={`${value} %, ${t("preview.zoomReset")}`}
     onclick={() => onzoom(0)}
   >
     {`${value} %`}
