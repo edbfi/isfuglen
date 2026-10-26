@@ -36,9 +36,7 @@ const TYPE_KEYS: Record<SectionTypeKey, MessageKey> = {
     + {t("section.add")}
   {/snippet}
 
-  {#snippet children({
-    close,
-  })}
+  {#snippet children({ close })}
     {#each SECTION_TYPES as type (type)}
       <button
         type="button"
