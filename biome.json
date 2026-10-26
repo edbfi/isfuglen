@@ -28,6 +28,9 @@
   },
   "linter": {
     "enabled": true,
+    "domains": {
+      "playwright": "none"
+    },
     "rules": {
       "preset": "recommended",
       "style": {
@@ -96,6 +99,14 @@
           "a11y": {
             "useSemanticElements": "off"
           }
+        }
+      }
+    },
+    {
+      "includes": ["tests/e2e/**"],
+      "linter": {
+        "domains": {
+          "playwright": "recommended"
         }
       }
     }
