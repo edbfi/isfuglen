@@ -8,16 +8,21 @@
   "files": {
     "ignoreUnknown": true,
     "includes": [
-      "**",
+      "**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,json,jsonc,css,svelte,html,astro}",
       "!!dist",
       "!node_modules",
       "!.astro",
       "!!.gjc",
       "!!.omc",
-      "!bun.lock",
       "!!test-results",
       "!!playwright-report",
-      "!!public/brand"
+      "!!public/brand",
+      "!!.agents/skills",
+      "!!.claude",
+      "!!.codex",
+      "!!.impeccable",
+      "!!.opencode",
+      "!!skills-lock.json"
     ]
   },
   "formatter": {
