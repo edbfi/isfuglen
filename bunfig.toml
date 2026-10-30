@@ -1,5 +1,4 @@
 # Bun is the runtime, installer, script runner and test runner for this project.
-# See `.agents/rules/bun-unocss-dev-pro.md`.
 
 [install]
 # Single-package project: hoisted is Bun's default here and is what Astro's

@@ -141,7 +141,7 @@ repos:
       # so build them first.
       - id: tests
         name: Run test suite
-        entry: bash -c 'bun run --bun build:assets && bun test'
+        entry: bun run --bun test
         language: system
         pass_filenames: false
         stages: [pre-push, manual]
