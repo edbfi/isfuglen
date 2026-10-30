@@ -6,6 +6,7 @@
   "packageManager": "bun@1.4.2",
   "description": "Nyhedsbrevsgenerator til faglig klub — paste meeting notes, get a laid-out A4 newsletter. Runs entirely in the browser.",
   "scripts": {
+    "lint": "bun --bun biome ci",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "bun run build:assets && astro build",
