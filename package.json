@@ -13,7 +13,7 @@
     "build:assets": "bun run scripts/build-logo-png.ts && bun run scripts/build-pdf-fonts.ts",
     "preview": "astro preview",
     "check": "astro check && svelte-check --tsconfig ./tsconfig.json && bun run check:native",
-    "test": "bun test",
+    "test": "bun run --bun build:assets && bun test",
     "test:e2e": "playwright test",
     "smoke": "bun run scripts/smoke.ts",
     "format": "biome check --write .",
