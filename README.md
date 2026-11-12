@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/brand/ishoej-kreds18.svg" alt="Ishøj Lærerkreds logo" width="300" height="100">
+  <img src="docs/assets/isfuglen-readme.svg" alt="Ishøj Lærerkreds logo" width="300" height="100">
 </p>
 
 <h1 align="center">isfuglen</h1>
