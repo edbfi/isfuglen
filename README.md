@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/isfuglen-readme.svg" alt="Ishøj Lærerkreds logo" width="300" height="100">
+  <img src="docs/assets/isfuglen-readme.svg" alt="Ishøj Lærerkreds logo" width="192" height="64">
 </p>
 
 <h1 align="center">isfuglen</h1>
@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://github.com/edbfi/isfuglen/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-AGPL--3.0-blue?style=flat" alt="License: AGPL-3.0">
+    <img src="https://img.shields.io/badge/License-AGPL--3.0--or--later-blue?style=flat" alt="License: AGPL-3.0-or-later">
   </a>
   <a href="https://github.com/oven-sh/bun" title="Bun build tooling source">
     <img src="https://img.shields.io/badge/Bun-000000?style=flat&amp;logo=bun&amp;logoColor=white" alt="Bun">
@@ -23,3 +23,13 @@
     <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&amp;logo=typescript&amp;logoColor=white" alt="TypeScript">
   </a>
 </p>
+
+## License
+
+The original code in this project is licensed under the GNU Affero General Public
+License, version 3 or (at your option) any later version
+(`AGPL-3.0-or-later`). See [LICENSE](LICENSE) for the full license text.
+
+Third-party dependencies and supplied artwork retain their respective terms.
+The Ishøj Lærerkreds mark, including its README presentation, is excluded from
+this code license grant; see [the brand asset documentation](public/brand/README.md).
